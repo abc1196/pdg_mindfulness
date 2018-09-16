@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">pdg_mindfulness</string>
+    <string name="hint_email">Correo electrónico</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="button_login">Iniciar sesion</string>
+    <string name="button_register">Registrate</string>
+    <string name="need_account">¿Necesitas una cuenta?</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
