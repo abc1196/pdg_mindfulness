@@ -2,6 +2,9 @@
 <resources>
     <color name="colorPrimary">#6A4368</color>
     <color name="colorPrimaryDark">#5A3559</color>
-    <color name="colorAccent">#fffde7</color>
+    <color name="colorAccent">#fff8e1</color>
     <color name="colorWhite">#ffffff</color>
+    <color name="colorBlack">#414149</color>
+    <color name="loginPageBackgroundColor">#fff8e1</color>
+    <color name="productGridBackgroundColor">#fff8e1</color>
 </resources>

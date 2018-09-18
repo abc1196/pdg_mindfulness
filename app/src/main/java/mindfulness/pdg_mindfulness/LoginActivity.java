@@ -4,6 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity  implements NavigationHost{
 
@@ -14,7 +17,8 @@ public class LoginActivity extends AppCompatActivity  implements NavigationHost{
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.container, new LoginFragment())
+                    .add(R.id.container, new SplashFragment())
+                    .addToBackStack(null)
                     .commit();
         }
     }
@@ -35,7 +39,20 @@ public class LoginActivity extends AppCompatActivity  implements NavigationHost{
         if (addToBackstack) {
             transaction.addToBackStack(null);
         }
-
         transaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        tellFragments();
+        super.onBackPressed();
+    }
+
+    private void tellFragments(){
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        for(Fragment f : fragments){
+            if(f != null && f instanceof BaseFragment)
+                ((BaseFragment)f).onBackPressed();
+        }
     }
 }

@@ -15,9 +15,9 @@ import android.view.ViewGroup;
 
 
 /**
- * A simple {@link Fragment} subclass
+ * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends BaseFragment {
+public class RegisterFragment extends BaseFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,20 +28,8 @@ public class LoginFragment extends BaseFragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
-        final TextInputLayout passwordTextInput = view.findViewById(R.id.password_text_input);
-        final TextInputEditText passwordEditText = view.findViewById(R.id.password_edit_text);
-        MaterialButton registerButton = view.findViewById(R.id.register_button);
-
+        View view = inflater.inflate(R.layout.fragment_register, container, false);
         MaterialButton registerBackButton = view.findViewById(R.id.register_back_button);
-
-        // Set an error if the password is less than 8 characters.
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((NavigationHost) getActivity()).navigateTo(new RegisterFragment(), true); // Navigate to the next Fragment
-            }
-        });
 
         // Set an error if the password is less than 8 characters.
         registerBackButton.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +42,7 @@ public class LoginFragment extends BaseFragment {
     }
 
     @Override
-    public void onBackPressed() {
-        //getActivity().getSupportFragmentManager().popBackStack();
+    public void onBackPressed(){
+       // getActivity().getSupportFragmentManager().popBackStack();
     }
 }
