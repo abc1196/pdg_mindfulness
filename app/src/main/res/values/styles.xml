@@ -24,6 +24,11 @@
         <item name="backgroundTint">?attr/colorControlActivated</item>
     </style>
 
+    <style name="ButtonAppBar" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="android:textColor">?attr/colorPrimaryDark</item>
+        <item name="backgroundTint">?attr/colorControlActivated</item>
+    </style>
+
     <style name="TextAppearance.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
@@ -35,4 +40,5 @@
         <item name="android:paddingBottom">8dp</item>
         <item name="android:textColorHint">?attr/colorPrimary</item>
     </style>
+
 </resources>
