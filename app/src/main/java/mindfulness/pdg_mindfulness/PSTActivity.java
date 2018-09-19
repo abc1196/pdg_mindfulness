@@ -1,4 +1,7 @@
 package mindfulness.pdg_mindfulness;
 
-public class PSTActivity {
+import android.support.v7.app.AppCompatActivity;
+
+public class PSTActivity extends AppCompatActivity {
+
 }

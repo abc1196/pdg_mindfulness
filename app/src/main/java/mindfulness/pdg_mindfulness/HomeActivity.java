@@ -1,4 +1,8 @@
 package mindfulness.pdg_mindfulness;
 
-public class HomeActivity {
+import android.support.v7.app.AppCompatActivity;
+
+public class HomeActivity extends AppCompatActivity {
+
+
 }
