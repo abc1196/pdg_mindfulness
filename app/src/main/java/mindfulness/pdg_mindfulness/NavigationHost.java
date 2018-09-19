@@ -12,4 +12,6 @@ public interface NavigationHost {
      * stack to make this navigation reversible.
      */
     void navigateTo(Fragment fragment, boolean addToBackstack);
+    void registerUser(String name,String email,String password);
+    void loginUser(String email,String password);
 }
