@@ -6,7 +6,7 @@
     <string name="hint_password_confirm">Confirmar contraseña</string>
     <string name="register_info_email">Tendrás que confirmar esta dirección de correo electrónico</string>
     <string name="register_info_password">Debe tener al menos ocho caracteres</string>
-    <string name="error_password">La constraseña debe tener </string>
+    <string name="error_password">La constraseña es aún corta </string>
     <string name="button_login">Inicia sesión</string>
     <string name="button_register">Regístrate</string>
     <string name="need_account">¿Necesitas una cuenta?</string>
@@ -14,7 +14,7 @@
     <string name="button_register_me">Registrarme</string>
     <string name="do_pst">Realizar cuestionario</string>
     <string name="home">Home</string>
-
+    <string name="button_new_pst">Nueva medición</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

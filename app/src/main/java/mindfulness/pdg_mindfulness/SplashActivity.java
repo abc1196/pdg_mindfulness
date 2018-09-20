@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
-public class LoginActivity extends AppCompatActivity  implements NavigationHost{
+public class SplashActivity extends AppCompatActivity  implements NavigationHost{
 
 
     private FirebaseAuth mAuth;
@@ -26,13 +26,16 @@ public class LoginActivity extends AppCompatActivity  implements NavigationHost{
     @Override
     public void onStart() {
         super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        checkCurrentUser(currentUser);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mAuth = FirebaseAuth.getInstance();
+
         //mAuth.addAuthStateListener(mAuthListner);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -98,13 +101,12 @@ public class LoginActivity extends AppCompatActivity  implements NavigationHost{
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("ALEJOTAG", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.d("ALEJOTAG", "signInWithEmail:failure");
-                            FirebaseUser user = mAuth.getCurrentUser();
                             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                             startActivity(intent);
                             finish();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.d("ALEJOTAG", "signInWithEmail:failure");
                         }
                     }
                 });
@@ -122,6 +124,14 @@ public class LoginActivity extends AppCompatActivity  implements NavigationHost{
         for(Fragment f : fragments){
             if(f != null && f instanceof BaseFragment)
                 ((BaseFragment)f).onBackPressed();
+        }
+    }
+
+    private void checkCurrentUser(FirebaseUser currentUser){
+        if(currentUser!=null){
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 }
