@@ -36,6 +36,7 @@
             android:textSize="24dp" />
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/name_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -43,33 +44,36 @@
             android:hint="@string/hint_name">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                android:inputType="textEmailAddress"
+                android:inputType="text"
                 android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/email_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:paddingBottom="8dp"
-            android:hint="@string/hint_email">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="@string/hint_email"
+            app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/email_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"
                 android:inputType="textEmailAddress"
                 android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
-
         <android.support.design.widget.TextInputLayout
             android:id="@+id/password_text_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:paddingBottom="8dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="@string/hint_password"
             app:errorEnabled="true">
 
@@ -78,10 +82,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                android:inputType="textPassword"  />
+                android:inputType="text"  />
         </android.support.design.widget.TextInputLayout>
         <android.support.design.button.MaterialButton
-            android:id="@+id/signin_button"
+            android:id="@+id/register_button"
             style="@style/Widget.MaterialComponents.Button"
             app:cornerRadius="16dp"
             android:layout_width="match_parent"
@@ -89,5 +93,4 @@
             android:textAppearance="?android:textAppearanceButton"
             android:text="@string/button_register_me" />
     </LinearLayout>
-
 </ScrollView>
