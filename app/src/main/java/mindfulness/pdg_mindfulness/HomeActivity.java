@@ -93,9 +93,15 @@ public class HomeActivity extends AppCompatActivity  implements  DashboardNaviga
 
     private void checkCurrentUser(FirebaseUser currentUser) {
         if (currentUser == null) {
+
             Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
             startActivity(intent);
             finish();
+        } else if(currentUser!=null){
+            boolean verifiedEmail=currentUser.isEmailVerified();
+            if(!verifiedEmail){
+                Toast.makeText(getApplicationContext(),"Por favor confirma tu cuenta. Revisa tu correo electrónico.", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
