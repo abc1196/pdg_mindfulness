@@ -60,6 +60,7 @@ public class HomeActivity extends AppCompatActivity  implements  DashboardNaviga
     @Override
     public void newPST() {
         Intent intent = new Intent(getApplicationContext(), PSTActivity.class);
+        this.finish();
         startActivity(intent);
     }
 

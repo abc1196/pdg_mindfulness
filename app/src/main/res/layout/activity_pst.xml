@@ -4,4 +4,51 @@
     android:layout_height="match_parent"
     android:background="@color/colorAccent">
 
+    <TextView
+        android:id="@+id/question_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="64dp"
+        android:text="@string/button_login"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24dp" />
+        <android.support.design.button.MaterialButton
+            android:id="@+id/answer_button1"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceButton"
+            android:text="Answer1" />
+    <android.support.design.button.MaterialButton
+        android:id="@+id/answer_button2"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceButton"
+        android:text="Answer2" />
+        <android.support.design.button.MaterialButton
+            android:id="@+id/answer_button3"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceButton"
+            android:text="Answer3" />
+        <android.support.design.button.MaterialButton
+            android:id="@+id/answer_button4"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceButton"
+            android:text="Answer4" />
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/answer_button5"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Answer5"
+            android:textAppearance="?android:textAppearanceButton" />
+
 </LinearLayout>
