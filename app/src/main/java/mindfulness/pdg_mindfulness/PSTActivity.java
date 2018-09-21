@@ -167,6 +167,13 @@ public class PSTActivity extends AppCompatActivity {
                 upDateQuestion();
             }
         });
+        answerButton5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                score=score+0;
+                upDateQuestion();
+            }
+        });
     }
 
     private void upDateQuestion() {
