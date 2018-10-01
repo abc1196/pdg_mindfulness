@@ -24,6 +24,7 @@ public class PSTActivity extends AppCompatActivity {
     private HashMap<String,Answer> answers;
     private int score;
     private int index;
+    private int numberQuestion;
     private MaterialButton answerButton1;
     private MaterialButton answerButton2;
     private MaterialButton answerButton3;
@@ -48,6 +49,7 @@ public class PSTActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pst);
+        numberQuestion=0;
         index=0;
         score=0;
         questions=new ArrayList<>();
@@ -84,6 +86,7 @@ public class PSTActivity extends AppCompatActivity {
 
                             }
                             textQuestion.setText(questions.get(index).getQuestion());
+                            numberQuestion=questions.get(index).getIndex();
                             index++;
                             Log.d("CONITAGQUESTION", "QUESTIONS OK");
                             FirebaseFirestore db2 = FirebaseFirestore.getInstance();
@@ -131,54 +134,78 @@ public class PSTActivity extends AppCompatActivity {
 }
 
     private void setOnClickListeners() {
+
         answerButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                score=score+4;
-                upDateQuestion();
-            }
-        });
+
+                if(numberQuestion==4||numberQuestion==5||numberQuestion==6||numberQuestion==7||numberQuestion==9||numberQuestion==10
+                        ||numberQuestion==13){
+                    score=score+4;
+                }else {
+                            score = score + 0;
+                        }
+                        upDateQuestion();
+                }
+
+            });
         answerButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                score=score+3;
+                if(numberQuestion==4||numberQuestion==5||numberQuestion==6||numberQuestion==7||numberQuestion==9||numberQuestion==10
+                        ||numberQuestion==13){
+                    score=score+3;
+                }else {
+                    score = score + 1;
+                }
                 upDateQuestion();
-            }
-        });
-        answerButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                score=score+2;
-                upDateQuestion();
+
             }
         });
 
         answerButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                score=score+1;
+                if(numberQuestion==4||numberQuestion==5||numberQuestion==6||numberQuestion==7||numberQuestion==9||numberQuestion==10
+                        ||numberQuestion==13){
+                    score=score+2;
+                }else {
+                    score = score + 2;
+                }
                 upDateQuestion();
             }
         });
         answerButton4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                score=score+0;
+                if(numberQuestion==4||numberQuestion==5||numberQuestion==6||numberQuestion==7||numberQuestion==9||numberQuestion==10
+                        ||numberQuestion==13){
+                    score=score+1;
+                }else {
+                    score = score + 3;
+                }
                 upDateQuestion();
             }
         });
         answerButton5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                score=score+0;
+                if(numberQuestion==4||numberQuestion==5||numberQuestion==6||numberQuestion==7||numberQuestion==9||numberQuestion==10
+                        ||numberQuestion==13){
+                    score=score+0;
+                }else {
+                    score = score + 4;
+                }
                 upDateQuestion();
             }
         });
-    }
+        }
+
 
     private void upDateQuestion() {
         if(index<questions.size()) {
             textQuestion.setText(questions.get(index).getQuestion());
+            numberQuestion=questions.get(index).getIndex();
             index++;
         }else{
             textQuestion.setText("Tu puntaje es: "+score+"");
