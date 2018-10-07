@@ -1,4 +1,4 @@
-package mindfulness.pdg_mindfulness;
+package mindfulness.pdg_mindfulness.measurement.data;
 
 public class Question {
     private String question;

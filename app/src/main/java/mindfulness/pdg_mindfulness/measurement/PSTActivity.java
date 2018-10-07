@@ -1,4 +1,4 @@
-package mindfulness.pdg_mindfulness;
+package mindfulness.pdg_mindfulness.measurement;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +16,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import mindfulness.pdg_mindfulness.measurement.data.Answer;
+import mindfulness.pdg_mindfulness.measurement.data.Question;
+import mindfulness.pdg_mindfulness.R;
 
 public class PSTActivity extends AppCompatActivity {
     private final static String PST_TEST="PST_Test";

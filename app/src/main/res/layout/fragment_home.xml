@@ -1,38 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment"
+    tools:context=".dashboard.HomeFragment"
     android:background="@color/colorAccent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:orientation="vertical">
-    <android.support.design.button.MaterialButton
-        android:id="@+id/new_pst_button"
-        style="@style/Widget.MaterialComponents.Button"
-        app:cornerRadius="16dp"
-        android:layout_marginHorizontal="64dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceButton"
-        android:text="@string/button_new_pst" />
-
-
-    <android.support.design.button.MaterialButton
-        android:id="@+id/logout_button"
-        style="@style/Widget.MaterialComponents.Button"
-        app:cornerRadius="16dp"
-        android:layout_marginHorizontal="64dp"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceButton"
-        android:text="Cerrar sesión" />
-    </LinearLayout>
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ola ola"/>
+</LinearLayout>

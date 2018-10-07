@@ -1,4 +1,4 @@
-package mindfulness.pdg_mindfulness;
+package mindfulness.pdg_mindfulness.utils.interfaces;
 
 import android.support.v4.app.Fragment;
 

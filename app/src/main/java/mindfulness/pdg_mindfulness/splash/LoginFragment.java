@@ -1,4 +1,4 @@
-package mindfulness.pdg_mindfulness;
+package mindfulness.pdg_mindfulness.splash;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +14,10 @@ import android.view.ViewGroup;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import mindfulness.pdg_mindfulness.utils.others.BaseFragment;
+import mindfulness.pdg_mindfulness.utils.interfaces.NavigationHost;
+import mindfulness.pdg_mindfulness.R;
 
 
 /**

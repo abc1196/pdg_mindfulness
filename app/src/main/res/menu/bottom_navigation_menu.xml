@@ -4,9 +4,13 @@
     <item
         android:id="@+id/menu_home"
         android:icon="@drawable/ic_home"
-        android:title="Songs"/>
+        android:title="Inicio"/>
     <item
-        android:id="@+id/menu_pst"
-        android:icon="@drawable/ic_pst"
-        android:title="Songs"/>
+        android:id="@+id/menu_hrv"
+        android:icon="@drawable/ic_hrv"
+        android:title="HRV"/>
+    <item
+        android:id="@+id/menu_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="Perfil"/>
 </menu>

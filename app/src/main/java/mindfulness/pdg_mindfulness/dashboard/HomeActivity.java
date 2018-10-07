@@ -1,21 +1,34 @@
-package mindfulness.pdg_mindfulness;
+package mindfulness.pdg_mindfulness.dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import mindfulness.pdg_mindfulness.utils.others.BaseFragment;
+import mindfulness.pdg_mindfulness.measurement.HRVActivity;
+import mindfulness.pdg_mindfulness.R;
+import mindfulness.pdg_mindfulness.splash.SplashActivity;
+import mindfulness.pdg_mindfulness.utils.interfaces.DashboardNavigationHost;
 
-public class HomeActivity extends AppCompatActivity  implements  DashboardNavigationHost {
+
+public class HomeActivity extends AppCompatActivity  implements DashboardNavigationHost {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListner;
+    private BottomNavigationView bottomNavigationView;
+    private List<Fragment> fragments = new ArrayList<>(3);
     @Override
     public void onStart() {
         super.onStart();
@@ -28,15 +41,50 @@ public class HomeActivity extends AppCompatActivity  implements  DashboardNaviga
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment = null;
+                switch (item.getItemId()) {
+                    case R.id.menu_home:
+                        fragment = fragments.get(0);
+                        break;
+                    case R.id.menu_hrv:
+                        fragment = fragments.get(1);
+                        break;
+                    case R.id.menu_profile:
+                        fragment = fragments.get(2);
+                        break;
+                }
+                replaceFragment(fragment);
+                return true;
+            }
+        });
+        buildFragmentsList();
+        setInitialFragment();
+    }
 
-        //mAuth.addAuthStateListener(mAuthListner);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.dashboard_container, new HomeFragment())
-                    .addToBackStack(null)
-                    .commit();
-        }
+    private void setInitialFragment() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.main_fragment_placeholder, new HomeFragment());
+        fragmentTransaction.commit();
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_fragment_placeholder, fragment);
+        fragmentTransaction.commit();
+    }
+
+    private void buildFragmentsList() {
+        HomeFragment homeFragment = new HomeFragment();
+        HRVFragment hrvFragment = new HRVFragment();
+        ProfileFragment profileFragment = new ProfileFragment();
+
+        fragments.add(homeFragment);
+        fragments.add(hrvFragment);
+        fragments.add(profileFragment);
     }
 
     /**
@@ -60,7 +108,7 @@ public class HomeActivity extends AppCompatActivity  implements  DashboardNaviga
 
     @Override
     public void newPST() {
-        Intent intent = new Intent(getApplicationContext(), PSTActivity.class);
+        Intent intent = new Intent(getApplicationContext(), HRVActivity.class);
         this.finish();
         startActivity(intent);
     }

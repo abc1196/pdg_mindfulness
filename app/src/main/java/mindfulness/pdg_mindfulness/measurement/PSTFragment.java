@@ -1,4 +1,4 @@
-package mindfulness.pdg_mindfulness;
+package mindfulness.pdg_mindfulness.measurement;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,6 +10,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import mindfulness.pdg_mindfulness.measurement.data.Answer;
+import mindfulness.pdg_mindfulness.utils.others.BaseFragment;
+import mindfulness.pdg_mindfulness.measurement.data.Question;
+import mindfulness.pdg_mindfulness.R;
+import mindfulness.pdg_mindfulness.utils.interfaces.ScoringTest;
 
 
 public class PSTFragment extends BaseFragment {
