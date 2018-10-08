@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import mindfulness.pdg_mindfulness.dashboard.WelcomeActivity;
 import mindfulness.pdg_mindfulness.utils.others.BaseFragment;
 import mindfulness.pdg_mindfulness.dashboard.HomeActivity;
 import mindfulness.pdg_mindfulness.utils.interfaces.NavigationHost;
@@ -154,8 +155,9 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
                                             Log.d("ALEJOTAG", "DocumentSnapshot data: " + document.getData());
                                             boolean isFirstLogin=(boolean)document.getData().get("isFirstLogin");
                                             if(isFirstLogin){
-                                                //TODO
-                                                //DO WELCOME ACTIVITY
+                                                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                                startActivity(intent);
+                                                finish();
                                             }else{
                                                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                                 startActivity(intent);
