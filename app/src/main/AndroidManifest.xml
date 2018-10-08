@@ -25,7 +25,8 @@
         </activity>
         <activity android:name=".dashboard.HomeActivity" />
         <activity android:name=".measurement.PSTActivity" />
-        <activity android:name=".measurement.HRVActivity"></activity>
+        <activity android:name=".measurement.HRVActivity" />
+        <activity android:name=".dashboard.WelcomeActivity"></activity>
     </application>
 
 </manifest>
