@@ -1,5 +1,6 @@
 package mindfulness.pdg_mindfulness.measurement;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.button.MaterialButton;
@@ -17,9 +18,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import mindfulness.pdg_mindfulness.R;
+import mindfulness.pdg_mindfulness.graphics.GraphicsActivity;
 import mindfulness.pdg_mindfulness.measurement.data.Answer;
 import mindfulness.pdg_mindfulness.measurement.data.Question;
-import mindfulness.pdg_mindfulness.R;
 
 public class PSTActivity extends AppCompatActivity {
     private final static String PST_TEST="PST_Test";
@@ -34,6 +36,7 @@ public class PSTActivity extends AppCompatActivity {
     private MaterialButton answerButton3;
     private MaterialButton answerButton4;
     private MaterialButton answerButton5;
+    private MaterialButton goToGraphic;
     private TextView textQuestion;
     private final String BUTTON1_ID="ZNBYbelS3pDqfCRL7WAD";
     private final String BUTTON2_ID="fJeQbU1phyuU2IKCUlKG";
@@ -60,6 +63,8 @@ public class PSTActivity extends AppCompatActivity {
         answers=new HashMap<>();
 
         textQuestion=(TextView) findViewById(R.id.question_text);
+        goToGraphic = (MaterialButton)findViewById(R.id.goToGraphic);
+        goToGraphic.setVisibility(View.GONE);
         answerButton1 = (MaterialButton)findViewById(R.id.answer_button1);
         answerButton2 = (MaterialButton)findViewById(R.id.answer_button2);
         answerButton3 = (MaterialButton)findViewById(R.id.answer_button3);
@@ -139,6 +144,19 @@ public class PSTActivity extends AppCompatActivity {
 
     private void setOnClickListeners() {
 
+        goToGraphic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), GraphicsActivity.class);
+                String scoreToString=score+"";
+                intent.putExtra("score", scoreToString);
+                startActivity(intent);
+                finish();
+            }
+
+        });
+
+
         answerButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -213,6 +231,7 @@ public class PSTActivity extends AppCompatActivity {
             index++;
         }else{
             textQuestion.setText("Tu puntaje es: "+score+"");
+            goToGraphic.setVisibility(View.VISIBLE);
             answerButton1.setVisibility(View.GONE);
             answerButton2.setVisibility(View.GONE);
             answerButton3.setVisibility(View.GONE);

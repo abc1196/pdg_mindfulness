@@ -114,9 +114,9 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if (task.isSuccessful()) {
                                                                     Toast.makeText(getApplicationContext(),"Revisa tu correo electrónico y confirma tu cuenta.", Toast.LENGTH_LONG).show();
-                                                                    Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
-                                                                    startActivity(intent);
-                                                                    finish();
+                                                                        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                                                        startActivity(intent);
+                                                                        finish();
                                                                 }
                                                             }
                                                         });

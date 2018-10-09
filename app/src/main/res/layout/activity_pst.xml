@@ -14,6 +14,14 @@
         android:text="@string/button_login"
         android:textColor="@color/colorPrimary"
         android:textSize="24dp" />
+    <android.support.design.button.MaterialButton
+        android:id="@+id/goToGraphic"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceButton"
+        android:text="Ver progreso" />
+
         <android.support.design.button.MaterialButton
             android:id="@+id/answer_button1"
             style="@style/Widget.MaterialComponents.Button"
