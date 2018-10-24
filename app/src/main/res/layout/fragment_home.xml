@@ -6,10 +6,10 @@
     tools:context=".dashboard.HomeFragment"
     android:background="@color/colorAccent">
         <android.support.design.button.MaterialButton
-            android:id="@+id/playSongButton"
+            android:id="@+id/goToTreatmentButton"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:textAppearanceButton"
-            android:text="PLAY SONG" />
+            android:text="GO TO TREATMENT" />
 </FrameLayout>

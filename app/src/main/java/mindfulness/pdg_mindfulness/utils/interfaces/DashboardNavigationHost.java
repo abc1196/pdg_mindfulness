@@ -8,6 +8,6 @@ public interface DashboardNavigationHost {
      * stack to make this navigation reversible.
      */
     void navigateTo(Fragment fragment, boolean addToBackstack);
-    void newPST();
     void logout();
+    void goToTreatment();
 }

@@ -30,7 +30,8 @@
         <activity
             android:name=".graphics.GraphicsActivity"
             android:label="@string/title_activity_graphics"
-            android:theme="@style/AppTheme.Alt"></activity>
+            android:theme="@style/AppTheme.Alt" />
+        <activity android:name=".treatment.TreatmentActivity"/>
     </application>
 
 </manifest>

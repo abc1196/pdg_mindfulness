@@ -19,6 +19,11 @@ android {
     buildToolsVersion '28.0.2'
 }
 
+repositories{
+    mavenCentral()
+    mavenLocal()
+}
+
 dependencies {
     api 'com.android.support:design:28.0.0-alpha3'
     implementation 'com.android.support:support-v4:28.0.0-alpha3'
@@ -33,6 +38,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.github.markushi:circlebutton:1.1'
 
 }
 apply plugin: 'com.google.gms.google-services'

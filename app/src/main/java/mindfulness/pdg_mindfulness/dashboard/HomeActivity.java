@@ -7,7 +7,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -17,11 +16,11 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-import mindfulness.pdg_mindfulness.utils.others.BaseFragment;
-import mindfulness.pdg_mindfulness.measurement.HRVActivity;
 import mindfulness.pdg_mindfulness.R;
 import mindfulness.pdg_mindfulness.splash.SplashActivity;
+import mindfulness.pdg_mindfulness.treatment.TreatmentActivity;
 import mindfulness.pdg_mindfulness.utils.interfaces.DashboardNavigationHost;
+import mindfulness.pdg_mindfulness.utils.others.BaseFragment;
 
 
 public class HomeActivity extends AppCompatActivity  implements DashboardNavigationHost {
@@ -107,8 +106,8 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
     }
 
     @Override
-    public void newPST() {
-        Intent intent = new Intent(getApplicationContext(), HRVActivity.class);
+    public void goToTreatment(){
+        Intent intent = new Intent(getApplicationContext(), TreatmentActivity.class);
         this.finish();
         startActivity(intent);
     }
@@ -154,61 +153,3 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
         }
     }
 }
-
-/**
-public class HomeActivity extends AppCompatActivity {
-    private static final String SELECTED_ITEM = "selected_item";
-    private BottomNavigationView bottomNavigationView;
-    private int mSelectedItem;
-    BottomNavigationView botNavView;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        botNavView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-
-        botNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                // handle desired action here
-                // One possibility of action is to replace the contents above the nav bar
-                // return true if you want the item to be displayed as the selected item
-                selectActivity(item);
-                return true;
-            }
-        });
-
-        MenuItem selectedItem;
-        if (savedInstanceState != null) {
-            mSelectedItem = savedInstanceState.getInt(SELECTED_ITEM, 0);
-            selectedItem = botNavView.getMenu().findItem(mSelectedItem);
-        } else {
-            selectedItem = botNavView.getMenu().getItem(0);
-        }
-        selectActivity(selectedItem);
-    }
-    private void selectActivity(MenuItem item){
-        switch (item.getItemId()) {
-            case R.id.menu_home:
-                openPSTActivity();
-                break;
-        }
-
-
-    }
-    public void openPSTActivity(){
-        Intent intent=new Intent(this, PSTActivity.class);
-        startActivity(intent);
-    }
-    @Override
-    public void onBackPressed(){
-        MenuItem homeItem = botNavView.getMenu().getItem(0);
-        if (mSelectedItem != homeItem.getItemId()) {
-                    // select home item
-            selectActivity(homeItem);
-        } else {
-        super.onBackPressed();
-        }
-    }
-}
-**/
