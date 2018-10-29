@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="mindfulness.pdg_mindfulness">
 
     <uses-feature android:name="android.hardware.camera" />
@@ -8,6 +9,9 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:allowBackup="true"
@@ -19,14 +23,16 @@
         <activity android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".dashboard.HomeActivity" />
+        <activity android:name=".dashboard.WelcomeActivity"/>
         <activity android:name=".measurement.PSTActivity" />
         <activity android:name=".measurement.HRVActivity" />
-        <activity android:name=".dashboard.WelcomeActivity"></activity>
+
+        <service android:name=".utils.service.ScreenOnOffBackgroundService" />
+
     </application>
 
 </manifest>

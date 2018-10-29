@@ -10,10 +10,21 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+
 import mindfulness.pdg_mindfulness.R;
 import mindfulness.pdg_mindfulness.measurement.PSTActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     private ViewPager slideViewPager;
     private LinearLayout dotsLayout;
@@ -26,6 +37,13 @@ public class WelcomeActivity extends AppCompatActivity {
     private Button buttonNext;
 
     private int currentPage;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+        db= FirebaseFirestore.getInstance();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,9 +109,19 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(currentPage==mDots.length-1){
-                    Intent intent = new Intent(getApplicationContext(), PSTActivity.class);
-                    startActivity(intent);
-                    finish();
+                    FirebaseUser user=mAuth.getCurrentUser();
+                    if(user!=null) {
+                        db.collection("users").document(user.getUid()).update("isFirstLogin",false)
+                                .addOnSuccessListener(new OnSuccessListener< Void >() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Intent intent = new Intent(getApplicationContext(), PSTActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
+
+                    }
                 }else {
                     slideViewPager.setCurrentItem(currentPage +1);
                 }
