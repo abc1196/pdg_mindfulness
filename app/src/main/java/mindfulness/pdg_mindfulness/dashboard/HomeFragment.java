@@ -23,7 +23,7 @@ public class HomeFragment extends Fragment  {
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        goTreatment=(MaterialButton)view.findViewById(R.id.goToGraphic);
+        goTreatment=(MaterialButton)view.findViewById(R.id.goToTreatment);
         goTreatment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

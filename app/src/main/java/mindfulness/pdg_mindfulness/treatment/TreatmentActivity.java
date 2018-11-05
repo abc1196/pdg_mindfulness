@@ -1,19 +1,19 @@
 package mindfulness.pdg_mindfulness.treatment;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.design.button.MaterialButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import at.markushi.ui.CircleButton;
 import mindfulness.pdg_mindfulness.R;
 
 public class TreatmentActivity extends AppCompatActivity {
-    private MaterialButton playSongButton;
+    private CircleButton playSongButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_treatment);
-    playSongButton = (MaterialButton)findViewById(R.id.playSongButton);
+    playSongButton = (CircleButton)findViewById(R.id.playButton);
         playSongButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {

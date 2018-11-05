@@ -6,7 +6,7 @@
     tools:context=".dashboard.HomeFragment"
     android:background="@color/colorAccent">
         <android.support.design.button.MaterialButton
-            android:id="@+id/goToTreatmentButton"
+            android:id="@+id/goToTreatment"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

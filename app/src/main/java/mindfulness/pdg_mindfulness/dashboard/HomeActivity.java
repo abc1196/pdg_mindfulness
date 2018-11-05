@@ -53,7 +53,7 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
                         fragment = fragments.get(1);
                         break;
                     case R.id.menu_profile:
-                        fragment = fragments.get(2);
+                        fragment = fragments.get(1);
                         break;
                 }
                 replaceFragment(fragment);
@@ -78,11 +78,11 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
 
     private void buildFragmentsList() {
         HomeFragment homeFragment = new HomeFragment();
-        HRVFragment hrvFragment = new HRVFragment();
+
         ProfileFragment profileFragment = new ProfileFragment();
 
         fragments.add(homeFragment);
-        fragments.add(hrvFragment);
+
         fragments.add(profileFragment);
     }
 
