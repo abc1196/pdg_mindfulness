@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorAccent"
+    tools:context=".measurement.PSTScoreActivity">
+    <ProgressBar
+        android:id="@+id/loadingBar"
+        style="?android:attr/progressBarPadding"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:background="@color/colorWhite"
+        />
+    <LinearLayout
+        android:id="@+id/score_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:background="@color/colorWhite"
+
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="48dp"
+            android:text="Tu nivel de estrés percibido"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:textSize="32dp"
+            android:background="@color/colorPrimary"
+            />
+        <TextView
+            android:id="@+id/score_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@color/colorAccent"
+            android:text="Tu nivel de estrés percibido"
+            android:textAlignment="textStart"
+            android:textColor="@color/common_google_signin_btn_text_light"
+            android:textSize="16dp" />
+        <ImageView
+            android:id="@+id/score_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:background="@color/colorWhite"
+            />
+        <android.support.design.button.MaterialButton
+            android:id="@+id/score_button"
+            style="@style/Widget.MaterialComponents.Button"
+            app:cornerRadius="16dp"
+            android:layout_marginHorizontal="64dp"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceButton"
+            android:text="IR A TRATAMIENTO" />
+    </LinearLayout>
+</LinearLayout>

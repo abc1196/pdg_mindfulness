@@ -1,11 +1,13 @@
 package mindfulness.pdg_mindfulness.dashboard;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -20,8 +22,14 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +38,11 @@ import java.util.concurrent.TimeUnit;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
+import mindfulness.pdg_mindfulness.dashboard.data.User;
 import mindfulness.pdg_mindfulness.utils.others.BaseFragment;
-import mindfulness.pdg_mindfulness.measurement.HRVActivity;
 import mindfulness.pdg_mindfulness.R;
 import mindfulness.pdg_mindfulness.splash.SplashActivity;
+import mindfulness.pdg_mindfulness.treatment.TreatmentActivity;
 import mindfulness.pdg_mindfulness.utils.interfaces.DashboardNavigationHost;
 import mindfulness.pdg_mindfulness.utils.service.ScreenOnOffBackgroundService;
 import mindfulness.pdg_mindfulness.utils.worker.MeasurementWorker;
@@ -54,6 +63,7 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
 
     private WorkManager mWorkManager;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     private FirebaseAuth.AuthStateListener mAuthListner;
     private BottomNavigationView bottomNavigationView;
     private List<Fragment> fragments = new ArrayList<>(3);
@@ -61,6 +71,7 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
     public void onStart() {
         super.onStart();
         mAuth = FirebaseAuth.getInstance();
+        db=FirebaseFirestore.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         checkCurrentUser(currentUser);
     }
@@ -72,9 +83,12 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
 
 
         setPermissions();
-        setScreenOnOffBackgroundService();
-        setMeasurementWorker();
+       // setScreenOnOffBackgroundService();
+        //setMeasurementWorker();
 
+        mAuth = FirebaseAuth.getInstance();
+        db=FirebaseFirestore.getInstance();
+        User user=getUserStats();
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -113,36 +127,17 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
 
     private void buildFragmentsList() {
         HomeFragment homeFragment = new HomeFragment();
-        HRVFragment hrvFragment = new HRVFragment();
+        HealthFragment healthFragment = new HealthFragment();
         ProfileFragment profileFragment = new ProfileFragment();
 
         fragments.add(homeFragment);
-        fragments.add(hrvFragment);
+        fragments.add(healthFragment);
         fragments.add(profileFragment);
     }
 
-    /**
-     * Navigate to the given fragment.
-     *
-     * @param fragment       Fragment to navigate to.
-     * @param addToBackstack Whether or not the current fragment should be added to the backstack.
-     */
     @Override
-    public void navigateTo(Fragment fragment, boolean addToBackstack) {
-        FragmentTransaction transaction =
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container, fragment);
-
-        if (addToBackstack) {
-            transaction.addToBackStack(null);
-        }
-        transaction.commit();
-    }
-
-    @Override
-    public void newPST() {
-        Intent intent = new Intent(getApplicationContext(), HRVActivity.class);
+    public void goToTreatment(){
+        Intent intent = new Intent(getApplicationContext(), TreatmentActivity.class);
         this.finish();
         startActivity(intent);
     }
@@ -157,6 +152,58 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
             finish();
 
         }
+    }
+
+    @Override
+    public User getUserStats(){
+        FirebaseUser user=mAuth.getCurrentUser();
+        if(user!=null){
+            Log.d("ALEJOTAG", "NAME: "+user.getDisplayName());
+            final User currentUser=new User(user.getDisplayName());
+            DocumentReference docRef =db.collection("measurements").document(user.getUid());
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d("ALEJOTAG", "DocumentSnapshot data: " + document.getData());
+                            currentUser.setScreenOnCount((Long)document.getData().get("screenOnCount"));
+                            currentUser.setScreenTotalTime((String)document.getData().get("screenTotalTime"));
+                            currentUser.setCallTotalTime((String)document.getData().get("callTotalTime"));
+                            currentUser.setCallInCount((Long)document.getData().get("callInCount"));
+                            currentUser.setCallOutCount((Long)document.getData().get("callOutCount"));
+                            currentUser.setAppInformationTime((String)document.getData().get("appInformationTime"));
+                            currentUser.setAppHealthTime((String)document.getData().get("appHealthTime"));
+                            currentUser.setAppSystemTime((String)document.getData().get("appSystemTime"));
+                            currentUser.setAppEntertainmentTime((String)document.getData().get("appEntertainmentTime"));
+                            currentUser.setAppSocialTime((String)document.getData().get("appSocialTime"));
+                            currentUser.setAppWorkTime((String)document.getData().get("appWorkTime"));
+                            currentUser.setCreated((String)document.getData().get("created"));
+                            Gson gson = new Gson();
+                            String userInfJsonString = gson.toJson(currentUser);
+
+                            SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("SHARED_PREFERENCES",Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor=sharedPreferences.edit();
+                            editor.putString("USER_STATS",userInfJsonString);
+                            editor.commit();
+                        } else {
+                            Log.d("ALEJOTAG", "No such document");
+                            SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("SHARED_PREFERENCES",Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor=sharedPreferences.edit();
+                            editor.putString("USER_STATS",null);
+                            editor.commit();
+                        }
+                    } else {
+                        Log.d("ALEJOTAG", "get failed with ", task.getException());
+                    }
+                }
+            });
+            return currentUser;
+        }else{
+            return new User();
+        }
+
     }
 
 
@@ -185,6 +232,30 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
             if(!verifiedEmail){
                 Toast.makeText(getApplicationContext(),"Por favor confirma tu cuenta. Revisa tu correo electrónico.", Toast.LENGTH_LONG).show();
             }
+            DocumentReference docRef =db.collection("users").document(currentUser.getUid());
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("SHARED_PREFERENCES",Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor=sharedPreferences.edit();
+                            Long lastPST=(Long)document.getData().get("lastPST");
+                            String nextPST=(String)document.getData().get("nextPST");
+                            if(lastPST!=null&&nextPST!=null) {
+                                editor.putLong("USER_LAST_PST", lastPST);
+                                editor.putString("USER_NEXT_PST", nextPST);
+                                editor.commit();
+                            }
+                        } else {
+                            Log.d("ALEJOTAG", "No such document");
+                        }
+                    } else {
+                        Log.d("ALEJOTAG", "get failed with ", task.getException());
+                    }
+                }
+            });
         }
     }
 
@@ -216,7 +287,29 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
                 Toast.makeText(this,
                         getString(R.string.allow_usage_permissions),
                         Toast.LENGTH_LONG).show();
+                final AppOpsManager appOps = (AppOpsManager) getApplicationContext().getSystemService(Context.APP_OPS_SERVICE);
+                appOps.startWatchingMode(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                        getApplicationContext().getPackageName(),
+                        new AppOpsManager.OnOpChangedListener() {
+                            @Override
+                            @TargetApi(Build.VERSION_CODES.KITKAT)
+                            public void onOpChanged(String op, String packageName) {
+                                int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                                        android.os.Process.myUid(), getPackageName());
+                                if (mode == AppOpsManager.MODE_ALLOWED) {
+                                    Log.d("ELTAGOSE", "SEPUD2O");
+                                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putBoolean(SERVICES_ON, true);
+                                    editor.commit();
+                                    setScreenOnOffBackgroundService();
+                                    setMeasurementWorker();
+                                    appOps.stopWatchingMode(this);
+                                }
+                            }
+                        });
                 startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
+
             }
         }
     }
@@ -232,6 +325,7 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
+                    Log.d("ELTAGOSE","OLA PERRAS");
                     if(checkForPermission()){
                         setScreenOnOffBackgroundService();
                         setMeasurementWorker();
@@ -239,6 +333,27 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
                         Toast.makeText(this,
                                 getString(R.string.allow_usage_permissions),
                                 Toast.LENGTH_LONG).show();
+                        final AppOpsManager appOps = (AppOpsManager) getApplicationContext().getSystemService(Context.APP_OPS_SERVICE);
+                        appOps.startWatchingMode(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                                getApplicationContext().getPackageName(),
+                                new AppOpsManager.OnOpChangedListener() {
+                                    @Override
+                                    @TargetApi(Build.VERSION_CODES.KITKAT)
+                                    public void onOpChanged(String op, String packageName) {
+                                        int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                                                android.os.Process.myUid(), getPackageName());
+                                        if (mode == AppOpsManager.MODE_ALLOWED) {
+                                            Log.d("ELTAGOSE", "SEPUDO");
+                                            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putBoolean(SERVICES_ON, true);
+                                            editor.commit();
+                                            setScreenOnOffBackgroundService();
+                                            setMeasurementWorker();
+                                            appOps.stopWatchingMode(this);
+                                        }
+                                    }
+                                });
                         startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
                     }
                 } else {

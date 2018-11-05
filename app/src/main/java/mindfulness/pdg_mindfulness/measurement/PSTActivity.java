@@ -1,11 +1,14 @@
 package mindfulness.pdg_mindfulness.measurement;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.button.MaterialButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,6 +38,9 @@ public class PSTActivity extends AppCompatActivity {
     private MaterialButton answerButton4;
     private MaterialButton answerButton5;
     private TextView textQuestion;
+    private ProgressBar progressBar;
+    private ProgressBar loadingBar;
+    private LinearLayout linearLayout;
     private final String BUTTON1_ID="ZNBYbelS3pDqfCRL7WAD";
     private final String BUTTON2_ID="fJeQbU1phyuU2IKCUlKG";
     private final String BUTTON3_ID="wqtImht5qMeX22yiqcgY";
@@ -66,8 +72,10 @@ public class PSTActivity extends AppCompatActivity {
         answerButton4 = (MaterialButton)findViewById(R.id.answer_button4);
         answerButton5 = (MaterialButton)findViewById(R.id.answer_button5);
 
+        progressBar= (ProgressBar)findViewById(R.id.determinateBar);
+        loadingBar= (ProgressBar)findViewById(R.id.loadingBar);
 
-
+        linearLayout=(LinearLayout)findViewById(R.id.test_layout);
 
         FirebaseFirestore db1 = FirebaseFirestore.getInstance();
 
@@ -77,7 +85,6 @@ public class PSTActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-
                             for (QueryDocumentSnapshot document2 : task.getResult()) {
 
                                 String pQuestion = document2.get("question").toString();
@@ -121,6 +128,8 @@ public class PSTActivity extends AppCompatActivity {
 
 
                                                 setOnClickListeners();
+                                                loadingBar.setVisibility(View.GONE);
+                                                linearLayout.setVisibility(View.VISIBLE);
                                                 Log.d("CONITAGQUESTION", "ANSWERS OK");
                                             } else {
                                                 Log.w("ERRORGETTINGFIREBASE", "Error getting answers.", task.getException());
@@ -207,18 +216,17 @@ public class PSTActivity extends AppCompatActivity {
 
 
     private void upDateQuestion() {
+        int progress=(index*100)/questions.size();
+        progressBar.setProgress(progress);
         if(index<questions.size()) {
             textQuestion.setText(questions.get(index).getQuestion());
             numberQuestion=questions.get(index).getIndex();
             index++;
         }else{
-            textQuestion.setText("Tu puntaje es: "+score+"");
-            answerButton1.setVisibility(View.GONE);
-            answerButton2.setVisibility(View.GONE);
-            answerButton3.setVisibility(View.GONE);
-            answerButton4.setVisibility(View.GONE);
-            answerButton5.setVisibility(View.GONE);
-
+            Intent intent = new Intent(getApplicationContext(), PSTScoreActivity.class);
+            intent.putExtra("PST_SCORE",score);
+            startActivity(intent);
+            finish();
         }
 
     }

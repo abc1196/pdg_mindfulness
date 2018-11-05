@@ -98,7 +98,7 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
     }
 
     @Override
-    public void registerUser(String  name, String email, String password) {
+    public void registerUser(final String  name, String email, String password) {
         Map<String, Object> userTmp = new HashMap<>();
         userTmp.put("name",name);
         userTmp.put("email",email);
@@ -129,8 +129,12 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if (task.isSuccessful()) {
+                                                                    SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("SHARED_PREFERENCES",Context.MODE_PRIVATE);
+                                                                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                                                                    editor.putString("USER_NAME",name);
+                                                                    editor.commit();
                                                                     Toast.makeText(getApplicationContext(),"Revisa tu correo electrónico y confirma tu cuenta.", Toast.LENGTH_LONG).show();
-                                                                    Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+                                                                    Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
                                                                     startActivity(intent);
                                                                     finish();
                                                                 }
@@ -170,6 +174,10 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
                                         if (document.exists()) {
                                             Log.d("ALEJOTAG", "DocumentSnapshot data: " + document.getData());
                                             boolean isFirstLogin=(boolean)document.getData().get("isFirstLogin");
+                                            SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("SHARED_PREFERENCES",Context.MODE_PRIVATE);
+                                            SharedPreferences.Editor editor=sharedPreferences.edit();
+                                            editor.putString("USER_NAME",(String)document.getData().get("name"));
+                                            editor.commit();
                                             if(isFirstLogin){
                                                 Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
                                                 startActivity(intent);

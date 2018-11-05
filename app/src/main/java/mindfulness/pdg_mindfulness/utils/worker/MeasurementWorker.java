@@ -235,7 +235,7 @@ public class MeasurementWorker extends Worker {
                 String category= getCategory(query_url);
                 if(!category.equals(ERROR)&&!category.equals(NOT_FOUND)){
                     int globalCategory=getGlobalCategory(category);
-                    Log.d(ScreenOnOffReceiver.SCREEN_TOGGLE_TAG, "app: "+usageStats.getPackageName()+ " cat: "+ category);
+                   // Log.d(ScreenOnOffReceiver.SCREEN_TOGGLE_TAG, "app: "+usageStats.getPackageName()+ " cat: "+ category);
                     switch (globalCategory){
                         case INFORMATION:
                             informationTime+=usageStats.getTotalTimeInForeground();
