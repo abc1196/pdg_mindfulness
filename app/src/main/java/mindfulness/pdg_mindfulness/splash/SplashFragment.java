@@ -1,7 +1,5 @@
-package mindfulness.pdg_mindfulness;
+package mindfulness.pdg_mindfulness.splash;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.button.MaterialButton;
@@ -11,6 +9,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import mindfulness.pdg_mindfulness.utils.others.BaseFragment;
+import mindfulness.pdg_mindfulness.utils.interfaces.NavigationHost;
+import mindfulness.pdg_mindfulness.R;
 
 
 /**
