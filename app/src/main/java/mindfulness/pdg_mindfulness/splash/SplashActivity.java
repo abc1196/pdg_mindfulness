@@ -1,12 +1,17 @@
 package mindfulness.pdg_mindfulness.splash;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.button.MaterialButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,21 +24,31 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 import mindfulness.pdg_mindfulness.dashboard.WelcomeActivity;
 import mindfulness.pdg_mindfulness.utils.others.BaseFragment;
 import mindfulness.pdg_mindfulness.dashboard.HomeActivity;
 import mindfulness.pdg_mindfulness.utils.interfaces.NavigationHost;
 import mindfulness.pdg_mindfulness.R;
+import mindfulness.pdg_mindfulness.utils.receiver.ScreenOnOffReceiver;
+import mindfulness.pdg_mindfulness.utils.service.ScreenOnOffBackgroundService;
+import mindfulness.pdg_mindfulness.utils.worker.MeasurementWorker;
+
+import static mindfulness.pdg_mindfulness.utils.receiver.ScreenOnOffReceiver.SCREEN_ON_COUNT;
+import static mindfulness.pdg_mindfulness.utils.receiver.ScreenOnOffReceiver.SCREEN_ON_TIMESTAMP;
+import static mindfulness.pdg_mindfulness.utils.receiver.ScreenOnOffReceiver.SCREEN_TOTAL_TIME;
 
 public class SplashActivity extends AppCompatActivity  implements NavigationHost {
 
-
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListner;
     private FirebaseFirestore db;
 
     private  Map<String, Object> newUser;
@@ -44,8 +59,8 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         checkCurrentUser(currentUser);
-         db= FirebaseFirestore.getInstance();
-       newUser = new HashMap<>();
+        db= FirebaseFirestore.getInstance();
+        newUser = new HashMap<>();
     }
 
     @Override
@@ -53,7 +68,6 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //mAuth.addAuthStateListener(mAuthListner);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -61,6 +75,7 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
                     .addToBackStack(null)
                     .commit();
         }
+
     }
 
     /**
@@ -83,11 +98,12 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
     }
 
     @Override
-    public void registerUser(String  name, String email, String password) {
+    public void registerUser(final String  name, String email, String password) {
         Map<String, Object> userTmp = new HashMap<>();
         userTmp.put("name",name);
         userTmp.put("email",email);
         userTmp.put("isFirstLogin",true);
+        userTmp.put("currentTime",System.currentTimeMillis());
         newUser=userTmp;
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -113,10 +129,14 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if (task.isSuccessful()) {
+                                                                    SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("SHARED_PREFERENCES",Context.MODE_PRIVATE);
+                                                                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                                                                    editor.putString("USER_NAME",name);
+                                                                    editor.commit();
                                                                     Toast.makeText(getApplicationContext(),"Revisa tu correo electrónico y confirma tu cuenta.", Toast.LENGTH_LONG).show();
-                                                                        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-                                                                        startActivity(intent);
-                                                                        finish();
+                                                                    Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                                                    startActivity(intent);
+                                                                    finish();
                                                                 }
                                                             }
                                                         });
@@ -154,6 +174,10 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
                                         if (document.exists()) {
                                             Log.d("ALEJOTAG", "DocumentSnapshot data: " + document.getData());
                                             boolean isFirstLogin=(boolean)document.getData().get("isFirstLogin");
+                                            SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("SHARED_PREFERENCES",Context.MODE_PRIVATE);
+                                            SharedPreferences.Editor editor=sharedPreferences.edit();
+                                            editor.putString("USER_NAME",(String)document.getData().get("name"));
+                                            editor.commit();
                                             if(isFirstLogin){
                                                 Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
                                                 startActivity(intent);
@@ -185,6 +209,7 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
         tellFragments();
         super.onBackPressed();
     }
+
 
     private void tellFragments(){
         List<Fragment> fragments = getSupportFragmentManager().getFragments();

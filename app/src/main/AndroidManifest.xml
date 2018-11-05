@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="mindfulness.pdg_mindfulness">
 
     <uses-feature android:name="android.hardware.camera" />
@@ -8,6 +9,11 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:allowBackup="true"
@@ -24,13 +30,21 @@
             </intent-filter>
         </activity>
         <activity android:name=".dashboard.HomeActivity" />
+<<<<<<< HEAD
         <activity android:name=".measurement.PSTActivity" />
+=======
+>>>>>>> a2399501eb4e2ab7a61c8bb3c767bb6c5f8930f1
         <activity android:name=".dashboard.WelcomeActivity" />
+        <activity android:name=".measurement.PSTActivity" />
         <activity
             android:name=".graphics.GraphicsActivity"
             android:label="@string/title_activity_graphics"
             android:theme="@style/AppTheme.Alt" />
-        <activity android:name=".treatment.TreatmentActivity"/>
+        <activity android:name=".treatment.TreatmentActivity" />
+
+        <service android:name=".utils.service.ScreenOnOffBackgroundService" />
+
+        <activity android:name=".measurement.PSTScoreActivity"></activity>
     </application>
 
 </manifest>

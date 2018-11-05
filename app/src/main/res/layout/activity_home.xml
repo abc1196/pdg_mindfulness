@@ -12,7 +12,7 @@
         android:background="@color/colorPrimary"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_navigation_menu"
-        app:itemBackground="@color/colorAccent"
+        app:itemBackground="@color/colorWhite"
         app:itemIconTint="@color/bottom_nav_color"
         app:itemTextColor="@color/bottom_nav_color"/>
 </RelativeLayout>

@@ -3,14 +3,14 @@
 
     <item
         android:id="@+id/menu_home"
-        android:icon="@drawable/ic_home"
-        android:title="Inicio"/>
+        android:icon="@drawable/ic_treatment"
+        android:title="Tratamiento"/>
     <item
         android:id="@+id/menu_hrv"
-        android:icon="@drawable/ic_hrv"
-        android:title="HRV"/>
+        android:icon="@drawable/ic_hearth"
+        android:title="Salud"/>
     <item
         android:id="@+id/menu_profile"
-        android:icon="@drawable/ic_profile"
+        android:icon="@drawable/ic_health"
         android:title="Perfil"/>
 </menu>

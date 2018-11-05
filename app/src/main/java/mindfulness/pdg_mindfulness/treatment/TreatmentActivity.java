@@ -13,13 +13,7 @@ public class TreatmentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_treatment);
-    playSongButton = (CircleButton)findViewById(R.id.playButton);
-        playSongButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            playSong(v);
-        }
-    });
+
     }
 
     public void playSong(View view) {
