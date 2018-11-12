@@ -16,7 +16,6 @@
     <string name="home">Home</string>
     <string name="button_new_pst">Nueva medición</string>
     <string name="title_activity_graphics">GraphicsActivity</string>
-
     <string name="allow_usage_permissions">Debes activar el acceso a datos de uso.</string>
     <string name="logout">¿Estas segura de cerrar sesión?</string>
 

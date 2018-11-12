@@ -5,15 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.design.button.MaterialButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,34 +23,24 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import androidx.work.ExistingPeriodicWorkPolicy;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
-import mindfulness.pdg_mindfulness.dashboard.WelcomeActivity;
-import mindfulness.pdg_mindfulness.utils.others.BaseFragment;
-import mindfulness.pdg_mindfulness.dashboard.HomeActivity;
-import mindfulness.pdg_mindfulness.utils.interfaces.NavigationHost;
 import mindfulness.pdg_mindfulness.R;
-import mindfulness.pdg_mindfulness.utils.receiver.ScreenOnOffReceiver;
-import mindfulness.pdg_mindfulness.utils.service.ScreenOnOffBackgroundService;
-import mindfulness.pdg_mindfulness.utils.worker.MeasurementWorker;
+import mindfulness.pdg_mindfulness.dashboard.HomeActivity;
+import mindfulness.pdg_mindfulness.dashboard.WelcomeActivity;
+import mindfulness.pdg_mindfulness.utils.interfaces.NavigationHost;
+import mindfulness.pdg_mindfulness.utils.others.BaseFragment;
 
-import static mindfulness.pdg_mindfulness.utils.receiver.ScreenOnOffReceiver.SCREEN_ON_COUNT;
-import static mindfulness.pdg_mindfulness.utils.receiver.ScreenOnOffReceiver.SCREEN_ON_TIMESTAMP;
-import static mindfulness.pdg_mindfulness.utils.receiver.ScreenOnOffReceiver.SCREEN_TOTAL_TIME;
-
-public class SplashActivity extends AppCompatActivity  implements NavigationHost {
+public class SplashActivity extends AppCompatActivity implements NavigationHost {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
-    private  Map<String, Object> newUser;
+    private Map<String, Object> newUser;
+    private Map<String, Object> days;
+    private Map<String, Object> userSpecs;
 
     @Override
     public void onStart() {
@@ -61,8 +48,10 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         checkCurrentUser(currentUser);
-        db= FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         newUser = new HashMap<>();
+        days = new HashMap<>();
+        userSpecs = new HashMap<>();
     }
 
     @Override
@@ -100,8 +89,22 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
     }
 
     @Override
-    public void registerUser(final String  name, String email, String password) {
-        if(name!=null&&!name.equals("")&&email!=null&&!email.equals("")&&password!=null&&!password.equals("")) {
+    public void registerUser(final String name, String email, String password) {
+        if (name != null && !name.equals("") && email != null && !email.equals("") && password != null && !password.equals("")) {
+
+            //BCT
+            Map<String, Object> daysTemp = new HashMap<>();
+            daysTemp.put("day", 1);
+            daysTemp.put("isCompleted", false);
+            daysTemp.put("isAvailable", true);
+            daysTemp.put("isBodyScanDone", false);
+            daysTemp.put("isRoutineDone", false);
+            daysTemp.put("isPauseDone", false);
+            days = daysTemp;
+            Map<String, Object> userSpecsTemp = new HashMap<>();
+            userSpecsTemp.put("user_id", "");
+            userSpecs = userSpecsTemp;
+            //user
             Map<String, Object> userTmp = new HashMap<>();
             userTmp.put("name", name);
             userTmp.put("email", email);
@@ -150,31 +153,41 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
                                                 }
                                             }
                                         });
+                                userSpecs.put("user_id", user.getUid());
+                                db.collection("BCT").document(user.getUid()).set(userSpecs);
+                                for (int i = 1; i <= 7; i++) {
+                                    days.put("day", i);
+                                    if (i > 1) {
+                                        days.put("isAvailable", false);
+                                    }
+                                    db.collection("BCT").document(user.getUid()).collection("days").document(i + "").set(days);
+                                }
+                                days = new HashMap<>();
+                                userSpecs = new HashMap<>();
                             } else {
                                 // If sign in fails, display a message to the user.
-                                Log.d("ALEJOTAG", "Authentication failed: "+task.getException().getMessage());
-                                String exception=task.getException().getMessage();
-                                if(exception.equalsIgnoreCase("The email address is already in use by another account.")){
+                                Log.d("ALEJOTAG", "Authentication failed: " + task.getException().getMessage());
+                                String exception = task.getException().getMessage();
+                                if (exception.equalsIgnoreCase("The email address is already in use by another account.")) {
                                     createDialog("El correo electrónico ya se encuentra en uso");
-                                }else if(exception.equalsIgnoreCase("The email address is badly formatted.")){
+                                } else if (exception.equalsIgnoreCase("The email address is badly formatted.")) {
                                     createDialog("Parece que hay errores en el formulario. Intenta de nuevo.");
-                                }else{
+                                } else {
                                     createDialog("Ocurrió un error inesperado. Intenta de nuevo.");
                                 }
-
                             }
 
                         }
 
                     });
-        }else{
+        } else {
             createDialog("Por favor ingresa todos los campos");
         }
     }
 
     @Override
     public void loginUser(String email, String password) {
-        if(email!=null&&!email.equals("")&&password!=null&&!password.equals("")) {
+        if (email != null && !email.equals("") && password != null && !password.equals("")) {
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -217,20 +230,20 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
                                 });
                             } else {
                                 // If sign in fails, display a message to the user.
-                                String exception=task.getException().getMessage();
-                                if(exception.equalsIgnoreCase("There is no user record corresponding to this identifier. The user may have been deleted.")){
+                                String exception = task.getException().getMessage();
+                                if (exception.equalsIgnoreCase("There is no user record corresponding to this identifier. The user may have been deleted.")) {
                                     createDialog("No hay usuario asociado a ese correo electrónico.");
-                                }else if(exception.equalsIgnoreCase("The email address is badly formatted.")){
+                                } else if (exception.equalsIgnoreCase("The email address is badly formatted.")) {
                                     createDialog("Parece que hay errores en el formulario. Intenta de nuevo.");
-                                }else if(exception.equalsIgnoreCase("The password is invalid or the user does not have a password.")) {
+                                } else if (exception.equalsIgnoreCase("The password is invalid or the user does not have a password.")) {
                                     createDialog("La contraseña ingresada no es correcta. Intenta de nuevo.");
-                                } else{
+                                } else {
                                     createDialog("Ocurrió un error inesperado. Intenta de nuevo.");
                                 }
                             }
                         }
                     });
-        }else{
+        } else {
             createDialog("Por favor ingresa tu correo y/o contraseña");
         }
     }
@@ -243,19 +256,19 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
     }
 
 
-    private void tellFragments(){
+    private void tellFragments() {
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        for(Fragment f : fragments){
-            if(f != null && f instanceof BaseFragment)
-                ((BaseFragment)f).onBackPressed();
+        for (Fragment f : fragments) {
+            if (f != null && f instanceof BaseFragment)
+                ((BaseFragment) f).onBackPressed();
         }
     }
 
-    private void checkCurrentUser(FirebaseUser currentUser){
-        if(currentUser!=null){
-            boolean verifiedEmail=currentUser.isEmailVerified();
-            if(!verifiedEmail){
-                Toast.makeText(getApplicationContext(),"Por favor confirma tu cuenta. Revisa tu correo electrónico.", Toast.LENGTH_LONG).show();
+    private void checkCurrentUser(FirebaseUser currentUser) {
+        if (currentUser != null) {
+            boolean verifiedEmail = currentUser.isEmailVerified();
+            if (!verifiedEmail) {
+                Toast.makeText(getApplicationContext(), "Por favor confirma tu cuenta. Revisa tu correo electrónico.", Toast.LENGTH_LONG).show();
             }
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(intent);
@@ -263,7 +276,7 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
         }
     }
 
-    private void createDialog(String message){
+    private void createDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message);
         // Add the buttons

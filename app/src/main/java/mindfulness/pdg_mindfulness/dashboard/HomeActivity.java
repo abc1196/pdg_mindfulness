@@ -107,7 +107,7 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
                         fragment = fragments.get(1);
                         break;
                     case R.id.menu_profile:
-                        fragment = fragments.get(2);
+                        fragment = fragments.get(1);
                         break;
                 }
                 replaceFragment(fragment);
@@ -132,17 +132,20 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
 
     private void buildFragmentsList() {
         HomeFragment homeFragment = new HomeFragment();
+
         HealthFragment healthFragment = new HealthFragment();
         ProfileFragment profileFragment = new ProfileFragment();
 
         fragments.add(homeFragment);
         fragments.add(healthFragment);
+
         fragments.add(profileFragment);
     }
 
     @Override
-    public void goToTreatment(){
+    public void goToTreatment(int dayNumber){
         Intent intent = new Intent(getApplicationContext(), TreatmentActivity.class);
+        intent.putExtra("dayNumber",dayNumber+"");
         this.finish();
         startActivity(intent);
     }
@@ -419,9 +422,6 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
                 }
                 return;
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 
@@ -455,5 +455,6 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
                 .enqueueUniquePeriodicWork("jobTag", ExistingPeriodicWorkPolicy.KEEP, myWork);
 
     }
+
 }
 

@@ -10,4 +10,6 @@
     <color name="colorBlack">#414149</color>
     <color name="loginPageBackgroundColor">#fff8e1</color>
     <color name="productGridBackgroundColor">#fff8e1</color>
+    <color name="colorDisable">#d0cece</color>
+
 </resources>
