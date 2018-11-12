@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -36,11 +37,11 @@ import mindfulness.pdg_mindfulness.dashboard.data.User;
 
 public class PSTScoreActivity extends AppCompatActivity {
 
-    public static final String PST_SCORE_LOW_URL="https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/pst_leves%2Fpst_score_low.jpg?alt=media&token=78ccf9d4-f7e0-422e-93fd-f84993db76ad";
+    public static final String PST_SCORE_LOW_URL="https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/pst_leves%2Fpst_score_high_anim.gif?alt=media&token=cdded0fd-329d-4058-871b-7fd6011dc985";
 
-    public static final String PST_SCORE_MEDIUM_URL="https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/pst_leves%2Fpst_score_medium.jpg?alt=media&token=78ccf9d4-f7e0-422e-93fd-f84993db76ad";
+    public static final String PST_SCORE_MEDIUM_URL="https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/pst_leves%2Fpst_score_medium_anim.gif?alt=media&token=d0a70171-ccae-421c-b0d0-9802d391450f";
 
-    public static final String PST_SCORE_HIGH_URL="https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/pst_leves%2Fpst_score_high.jpg?alt=media&token=78ccf9d4-f7e0-422e-93fd-f84993db76ad";
+    public static final String PST_SCORE_HIGH_URL="https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/pst_leves%2Fpst_score_high_anim.gif?alt=media&token=cdded0fd-329d-4058-871b-7fd6011dc985";
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -69,11 +70,11 @@ public class PSTScoreActivity extends AppCompatActivity {
         }
         scoreImage=(ImageView)findViewById(R.id.score_image);
         if (score<=18){
-            Picasso.get().load(PST_SCORE_LOW_URL).into(scoreImage);
+            Glide.with(this).asGif().load(PST_SCORE_LOW_URL).into(scoreImage);
         }else if(score>18&&score<=36){
-            Picasso.get().load(PST_SCORE_MEDIUM_URL).into(scoreImage);
+            Glide.with(this).asGif().load(PST_SCORE_MEDIUM_URL).into(scoreImage);
         }else{
-            Picasso.get().load(PST_SCORE_HIGH_URL).into(scoreImage);
+            Glide.with(this).asGif().load(PST_SCORE_HIGH_URL).into(scoreImage);
         }
         scoreText.setText(text);
         loadingBar= (ProgressBar)findViewById(R.id.loadingBar);
@@ -94,16 +95,9 @@ public class PSTScoreActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener< Void >() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    boolean isFirstScore=sharedPreferences.getBoolean("FIRST_SCORE",false);
-                                    if(!isFirstScore) {
-                                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                                        editor.putBoolean("FIRST_SCORE",true);
-                                        editor.commit();
                                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                         startActivity(intent);
-                                    }else{
                                         finish();
-                                    }
                                 }
                             });
                 }

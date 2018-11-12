@@ -81,7 +81,7 @@ public class RegisterFragment extends BaseFragment {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if (!isPasswordValid(passwordEditText.getText())) {
-                    passwordTextInput.setError("La contraseña es corta"); //Clear the error
+                    passwordTextInput.setError("La contraseña debe tener al menos 8 carácteres"); //Clear the error
                 }else{
                     passwordEditText.setError(null);
                 }

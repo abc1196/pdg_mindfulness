@@ -18,7 +18,7 @@
     <string name="title_activity_graphics">GraphicsActivity</string>
 
     <string name="allow_usage_permissions">Debes activar el acceso a datos de uso.</string>
-
+    <string name="logout">¿Estas segura de cerrar sesión?</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

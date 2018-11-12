@@ -8,6 +8,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,7 @@ public class LoginFragment extends BaseFragment {
         final TextInputLayout passwordTextInput = view.findViewById(R.id.password_text_input);
         final TextInputEditText passwordEditText = view.findViewById(R.id.password_edit_text);
 
-        MaterialButton loginButton = view.findViewById(R.id.login_button);
+        final MaterialButton loginButton = view.findViewById(R.id.login_button);
         MaterialButton loginBackButton = view.findViewById(R.id.login_back_button);
         MaterialButton registerButton = view.findViewById(R.id.register_button);
 
@@ -67,9 +68,11 @@ public class LoginFragment extends BaseFragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loginButton.setEnabled(false);
                 String email = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
                 ((NavigationHost) getActivity()).loginUser(email, password);
+                loginButton.setEnabled(true);
             }
         });
 
@@ -80,12 +83,17 @@ public class LoginFragment extends BaseFragment {
     public void onBackPressed() {}
 
     private boolean isPasswordValid(@Nullable Editable text) {
-        return text != null && text.length() >= 8;
+        return text != null;
     }
 
 
     private boolean isEmailValid(@Nullable Editable text) {
-        matcher = pattern.matcher(text.toString());
-        return matcher.matches();
+        if(text.toString()!=null) {
+            matcher = pattern.matcher(text.toString());
+            return matcher.matches();
+        }else{
+            return false;
+        }
     }
+
 }

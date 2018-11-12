@@ -1,6 +1,8 @@
 package mindfulness.pdg_mindfulness.splash;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -99,108 +101,138 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
 
     @Override
     public void registerUser(final String  name, String email, String password) {
-        Map<String, Object> userTmp = new HashMap<>();
-        userTmp.put("name",name);
-        userTmp.put("email",email);
-        userTmp.put("isFirstLogin",true);
-        userTmp.put("currentTime",System.currentTimeMillis());
-        newUser=userTmp;
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("ALEJOTAG", "Authentication succesful");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName((String)newUser.get("name"))
-                                    .setPhotoUri(null)
-                                    .build();
-                            db.collection("users").document(user.getUid()).set(newUser);
-                            newUser=new HashMap<>();
-                            user.updateProfile(profileUpdates)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                mAuth.getCurrentUser().sendEmailVerification()
-                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                if (task.isSuccessful()) {
-                                                                    SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("SHARED_PREFERENCES",Context.MODE_PRIVATE);
-                                                                    SharedPreferences.Editor editor=sharedPreferences.edit();
-                                                                    editor.putString("USER_NAME",name);
-                                                                    editor.commit();
-                                                                    Toast.makeText(getApplicationContext(),"Revisa tu correo electrónico y confirma tu cuenta.", Toast.LENGTH_LONG).show();
-                                                                    Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-                                                                    startActivity(intent);
-                                                                    finish();
+        if(name!=null&&!name.equals("")&&email!=null&&!email.equals("")&&password!=null&&!password.equals("")) {
+            Map<String, Object> userTmp = new HashMap<>();
+            userTmp.put("name", name);
+            userTmp.put("email", email);
+            userTmp.put("isFirstLogin", true);
+            userTmp.put("currentTime", System.currentTimeMillis());
+            newUser = userTmp;
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d("ALEJOTAG", "Authentication succesful");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName((String) newUser.get("name"))
+                                        .setPhotoUri(null)
+                                        .build();
+                                db.collection("users").document(user.getUid()).set(newUser);
+                                newUser = new HashMap<>();
+                                user.updateProfile(profileUpdates)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    mAuth.getCurrentUser().sendEmailVerification()
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("SHARED_PREFERENCES", Context.MODE_PRIVATE);
+                                                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                                        editor.putString("USER_NAME", name);
+                                                                        editor.commit();
+                                                                        Toast.makeText(getApplicationContext(), "Revisa tu correo electrónico y confirma tu cuenta.", Toast.LENGTH_LONG).show();
+                                                                        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                                                        startActivity(intent);
+                                                                        finish();
+                                                                    }else{
+                                                                        createDialog("Ocurrió un error inesperado. Intenta de nuevo.");
+                                                                    }
                                                                 }
-                                                            }
-                                                        });
+                                                            });
+                                                }else{
+                                                    createDialog("Ocurrió un error inesperado. Intenta de nuevo.");
+                                                }
                                             }
-                                        }
-                                    });
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.d("ALEJOTAG", "Authentication failed");
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                                        });
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.d("ALEJOTAG", "Authentication failed: "+task.getException().getMessage());
+                                String exception=task.getException().getMessage();
+                                if(exception.equalsIgnoreCase("The email address is already in use by another account.")){
+                                    createDialog("El correo electrónico ya se encuentra en uso");
+                                }else if(exception.equalsIgnoreCase("The email address is badly formatted.")){
+                                    createDialog("Parece que hay errores en el formulario. Intenta de nuevo.");
+                                }else{
+                                    createDialog("Ocurrió un error inesperado. Intenta de nuevo.");
+                                }
+
+                            }
+
                         }
 
-                    }
-
-                });
+                    });
+        }else{
+            createDialog("Por favor ingresa todos los campos");
+        }
     }
 
     @Override
     public void loginUser(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("ALEJOTAG", "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            DocumentReference docRef = db.collection("users").document(user.getUid());
-                            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        if (document.exists()) {
-                                            Log.d("ALEJOTAG", "DocumentSnapshot data: " + document.getData());
-                                            boolean isFirstLogin=(boolean)document.getData().get("isFirstLogin");
-                                            SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("SHARED_PREFERENCES",Context.MODE_PRIVATE);
-                                            SharedPreferences.Editor editor=sharedPreferences.edit();
-                                            editor.putString("USER_NAME",(String)document.getData().get("name"));
-                                            editor.commit();
-                                            if(isFirstLogin){
-                                                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }else{
-                                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                                startActivity(intent);
-                                                finish();
+        if(email!=null&&!email.equals("")&&password!=null&&!password.equals("")) {
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d("ALEJOTAG", "signInWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                DocumentReference docRef = db.collection("users").document(user.getUid());
+                                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                Log.d("ALEJOTAG", "DocumentSnapshot data: " + document.getData());
+                                                boolean isFirstLogin = (boolean) document.getData().get("isFirstLogin");
+                                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("SHARED_PREFERENCES", Context.MODE_PRIVATE);
+                                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                editor.putString("USER_NAME", (String) document.getData().get("name"));
+                                                editor.commit();
+                                                if (isFirstLogin) {
+                                                    Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                } else {
+                                                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            } else {
+                                                Log.d("ALEJOTAG", "No such document");
+                                                createDialog("Ocurrió un error inesperado. Intenta de nuevo.");
                                             }
                                         } else {
-                                            Log.d("ALEJOTAG", "No such document");
+                                            Log.d("ALEJOTAG", "get failed with ", task.getException());
+                                            createDialog("Ocurrió un error inesperado. Intenta de nuevo.");
                                         }
-                                    } else {
-                                        Log.d("ALEJOTAG", "get failed with ", task.getException());
                                     }
+                                });
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                String exception=task.getException().getMessage();
+                                if(exception.equalsIgnoreCase("There is no user record corresponding to this identifier. The user may have been deleted.")){
+                                    createDialog("No hay usuario asociado a ese correo electrónico.");
+                                }else if(exception.equalsIgnoreCase("The email address is badly formatted.")){
+                                    createDialog("Parece que hay errores en el formulario. Intenta de nuevo.");
+                                }else if(exception.equalsIgnoreCase("The password is invalid or the user does not have a password.")) {
+                                    createDialog("La contraseña ingresada no es correcta. Intenta de nuevo.");
+                                } else{
+                                    createDialog("Ocurrió un error inesperado. Intenta de nuevo.");
                                 }
-                            });
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.d("ALEJOTAG", "signInWithEmail:failure");
+                            }
                         }
-                    }
-                });
+                    });
+        }else{
+            createDialog("Por favor ingresa tu correo y/o contraseña");
+        }
     }
 
 
@@ -229,5 +261,21 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
             startActivity(intent);
             finish();
         }
+    }
+
+    private void createDialog(String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message);
+        // Add the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+                dialog.dismiss();
+            }
+        });
+
+        // Create the AlertDialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

@@ -2,8 +2,12 @@ package mindfulness.pdg_mindfulness.dashboard;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.AppOpsManager;
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -37,7 +41,9 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
+import androidx.work.State;
 import androidx.work.WorkManager;
+import androidx.work.WorkStatus;
 import mindfulness.pdg_mindfulness.dashboard.data.User;
 import mindfulness.pdg_mindfulness.utils.others.BaseFragment;
 import mindfulness.pdg_mindfulness.R;
@@ -53,6 +59,7 @@ import static android.os.Process.myUid;
 
 import static mindfulness.pdg_mindfulness.utils.receiver.ScreenOnOffReceiver.SCREEN_ON_COUNT;
 import static mindfulness.pdg_mindfulness.utils.receiver.ScreenOnOffReceiver.SCREEN_ON_TIMESTAMP;
+import static mindfulness.pdg_mindfulness.utils.receiver.ScreenOnOffReceiver.SCREEN_TOGGLE_TAG;
 import static mindfulness.pdg_mindfulness.utils.receiver.ScreenOnOffReceiver.SCREEN_TOTAL_TIME;
 
 
@@ -83,8 +90,6 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
 
 
         setPermissions();
-       // setScreenOnOffBackgroundService();
-        //setMeasurementWorker();
 
         mAuth = FirebaseAuth.getInstance();
         db=FirebaseFirestore.getInstance();
@@ -144,14 +149,33 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
 
     @Override
     public void logout() {
-        FirebaseUser currentUser=mAuth.getCurrentUser();
-        if(currentUser!=null){
-            mAuth.signOut();
-            Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
-            startActivity(intent);
-            finish();
+        Log.d("ALEJOTAG","LOGOUT");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.logout);
+// Add the buttons
+        builder.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked OK button
+                FirebaseUser currentUser=mAuth.getCurrentUser();
+                if(currentUser!=null){
+                    mAuth.signOut();
+                    Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+                    startActivity(intent);
+                    finish();
 
-        }
+                }
+            }
+        });
+        builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+                dialog.dismiss();
+            }
+        });
+
+// Create the AlertDialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
@@ -277,6 +301,7 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
                 // result of the request.
 
         }else if(!servicesOn){
+
             if (checkForPermission()){
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(SERVICES_ON,true);
@@ -311,7 +336,40 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
                 startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
 
             }
+        }else {
+            if(!isMyServiceRunning(ScreenOnOffBackgroundService.class)){
+                setScreenOnOffBackgroundService();
+            }
+            /**
+            if(isWorkScheduled("jobTag")){
+                setMeasurementWorker();
+            }
+             **/
+            Log.d(SCREEN_TOGGLE_TAG, "WORK: "+isWorkScheduled("jobTag"));
+            Log.d(SCREEN_TOGGLE_TAG, "service: "+isMyServiceRunning(ScreenOnOffBackgroundService.class));
         }
+    }
+
+    private boolean isWorkScheduled(String tag) {
+        WorkManager instance = WorkManager.getInstance();
+        if (instance == null) return false;
+        LiveData<List<WorkStatus>> statuses = instance.getStatusesByTag(tag);
+        if (statuses.getValue() == null) return false;
+        boolean running = false;
+        for (WorkStatus workStatus : statuses.getValue()) {
+            running = workStatus.getState() == State.RUNNING | workStatus.getState() == State.ENQUEUED;
+        }
+        return running;
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -325,7 +383,6 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    Log.d("ELTAGOSE","OLA PERRAS");
                     if(checkForPermission()){
                         setScreenOnOffBackgroundService();
                         setMeasurementWorker();
@@ -343,7 +400,6 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
                                         int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
                                                 android.os.Process.myUid(), getPackageName());
                                         if (mode == AppOpsManager.MODE_ALLOWED) {
-                                            Log.d("ELTAGOSE", "SEPUDO");
                                             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                                             SharedPreferences.Editor editor = sharedPreferences.edit();
                                             editor.putBoolean(SERVICES_ON, true);

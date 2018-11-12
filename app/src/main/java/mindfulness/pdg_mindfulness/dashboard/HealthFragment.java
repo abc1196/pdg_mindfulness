@@ -27,6 +27,13 @@ import mindfulness.pdg_mindfulness.measurement.PSTScoreActivity;
  * A simple {@link Fragment} subclass.
  */
 public class HealthFragment extends Fragment {
+
+    public static final String PST_SCORE_LOW_URL="https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/pst_leves%2Fpst_score_low.png?alt=media&token=703e3666-ec98-4d59-bfac-96a3615f2c08";
+
+    public static final String PST_SCORE_MEDIUM_URL="https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/pst_leves%2Fpst_score_medium.png?alt=media&token=a7203297-f3d8-42f6-bed9-62ad5af88705";
+
+    public static final String PST_SCORE_HIGH_URL="https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/pst_leves%2Fpst_score_high.png?alt=media&token=3d464718-19a9-4a0c-baf7-0340330c6f9d";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,11 +63,11 @@ public class HealthFragment extends Fragment {
         nextPstText.setText(daysLeft+" días hasta la próxima medición.");
         ImageView scoreImage=(ImageView)view.findViewById(R.id.score_image);
         if (lastPST<=18){
-            Picasso.get().load(PSTScoreActivity.PST_SCORE_LOW_URL).into(scoreImage);
+            Picasso.get().load(PST_SCORE_LOW_URL).into(scoreImage);
         }else if(lastPST>18&&lastPST<=36){
-            Picasso.get().load(PSTScoreActivity.PST_SCORE_MEDIUM_URL).into(scoreImage);
+            Picasso.get().load(PST_SCORE_MEDIUM_URL).into(scoreImage);
         }else{
-            Picasso.get().load(PSTScoreActivity.PST_SCORE_HIGH_URL).into(scoreImage);
+            Picasso.get().load(PST_SCORE_HIGH_URL).into(scoreImage);
         }
         MaterialButton newPstButton = view.findViewById(R.id.new_pst_button);
         if(daysLeft<=0){
@@ -72,6 +79,7 @@ public class HealthFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), PSTActivity.class);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
         return view;

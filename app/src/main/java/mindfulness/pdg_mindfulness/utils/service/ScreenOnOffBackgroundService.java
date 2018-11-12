@@ -35,7 +35,7 @@ public class ScreenOnOffBackgroundService extends Service {
         // TODO: String localization
         Notification not = new Notification.Builder(this).
                 setContentTitle(getText(R.string.app_name)).
-                setContentInfo("Doing stuff in the background...").setSmallIcon(R.mipmap.ic_launcher).
+                setContentInfo("Doing stuff in the background...").setSmallIcon(R.drawable.ic_launcher).
                 setContentIntent(pendingIntent).build();
         startForeground(1, not);
 
