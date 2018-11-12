@@ -1,7 +1,5 @@
 package mindfulness.pdg_mindfulness.utils.interfaces;
 
-import android.support.v4.app.Fragment;
-
 import mindfulness.pdg_mindfulness.dashboard.data.User;
 
 public interface DashboardNavigationHost {
@@ -11,6 +9,6 @@ public interface DashboardNavigationHost {
      */
 
     void logout();
-    void goToTreatment();
+    void goToTreatment(int dayNumber);
     User getUserStats();
 }

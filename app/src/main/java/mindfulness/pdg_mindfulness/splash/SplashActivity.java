@@ -3,15 +3,12 @@ package mindfulness.pdg_mindfulness.splash;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.design.button.MaterialButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,27 +21,15 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import androidx.work.ExistingPeriodicWorkPolicy;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
-import mindfulness.pdg_mindfulness.dashboard.WelcomeActivity;
-import mindfulness.pdg_mindfulness.utils.others.BaseFragment;
-import mindfulness.pdg_mindfulness.dashboard.HomeActivity;
-import mindfulness.pdg_mindfulness.utils.interfaces.NavigationHost;
 import mindfulness.pdg_mindfulness.R;
-import mindfulness.pdg_mindfulness.utils.receiver.ScreenOnOffReceiver;
-import mindfulness.pdg_mindfulness.utils.service.ScreenOnOffBackgroundService;
-import mindfulness.pdg_mindfulness.utils.worker.MeasurementWorker;
-
-import static mindfulness.pdg_mindfulness.utils.receiver.ScreenOnOffReceiver.SCREEN_ON_COUNT;
-import static mindfulness.pdg_mindfulness.utils.receiver.ScreenOnOffReceiver.SCREEN_ON_TIMESTAMP;
-import static mindfulness.pdg_mindfulness.utils.receiver.ScreenOnOffReceiver.SCREEN_TOTAL_TIME;
+import mindfulness.pdg_mindfulness.dashboard.HomeActivity;
+import mindfulness.pdg_mindfulness.dashboard.WelcomeActivity;
+import mindfulness.pdg_mindfulness.utils.interfaces.NavigationHost;
+import mindfulness.pdg_mindfulness.utils.others.BaseFragment;
 
 public class SplashActivity extends AppCompatActivity  implements NavigationHost {
 
@@ -52,7 +37,8 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
     private FirebaseFirestore db;
 
     private  Map<String, Object> newUser;
-
+    private  Map<String, Object> days;
+    private  Map<String, Object> userSpecs;
     @Override
     public void onStart() {
         super.onStart();
@@ -61,6 +47,8 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
         checkCurrentUser(currentUser);
         db= FirebaseFirestore.getInstance();
         newUser = new HashMap<>();
+        days = new HashMap<>();
+        userSpecs = new HashMap<>();
     }
 
     @Override
@@ -99,6 +87,20 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
 
     @Override
     public void registerUser(final String  name, String email, String password) {
+
+        //BCT
+        Map<String, Object> daysTemp = new HashMap<>();
+        daysTemp.put("day",1);
+        daysTemp.put("isCompleted",false);
+        daysTemp.put("isAvailable",true);
+        daysTemp.put("isBodyScanDone",false);
+        daysTemp.put("isRoutineDone",false);
+        daysTemp.put("isPauseDone",false);
+        days=daysTemp;
+        Map<String, Object> userSpecsTemp = new HashMap<>();
+        userSpecsTemp.put("user_id","");
+        userSpecs=userSpecsTemp;
+        //user
         Map<String, Object> userTmp = new HashMap<>();
         userTmp.put("name",name);
         userTmp.put("email",email);
@@ -143,6 +145,17 @@ public class SplashActivity extends AppCompatActivity  implements NavigationHost
                                             }
                                         }
                                     });
+                            userSpecs.put("user_id",user.getUid());
+                            db.collection("BCT").document(user.getUid()).set(userSpecs);
+                            for (int i=1;i<=7;i++) {
+                                days.put("day",i);
+                                if(i>1){
+                                    days.put("isAvailable",false);
+                                }
+                                db.collection("BCT").document(user.getUid()).collection("days").document(i+"").set(days);
+                            }
+                            days=new HashMap<>();
+                            userSpecs=new HashMap<>();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d("ALEJOTAG", "Authentication failed");

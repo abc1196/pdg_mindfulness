@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
@@ -30,21 +30,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".dashboard.HomeActivity" />
-<<<<<<< HEAD
-        <activity android:name=".measurement.PSTActivity" />
-=======
->>>>>>> a2399501eb4e2ab7a61c8bb3c767bb6c5f8930f1
         <activity android:name=".dashboard.WelcomeActivity" />
         <activity android:name=".measurement.PSTActivity" />
-        <activity
-            android:name=".graphics.GraphicsActivity"
-            android:label="@string/title_activity_graphics"
-            android:theme="@style/AppTheme.Alt" />
         <activity android:name=".treatment.TreatmentActivity" />
-
         <service android:name=".utils.service.ScreenOnOffBackgroundService" />
-
-        <activity android:name=".measurement.PSTScoreActivity"></activity>
+        <activity android:name=".measurement.PSTScoreActivity" />
+        <activity android:name=".treatment.PlayTreatmentActivity"></activity>
     </application>
 
 </manifest>

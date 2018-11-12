@@ -1,33 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorAccent"
+    android:orientation="vertical"
     tools:context=".treatment.TreatmentActivity">
+
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:id="@+id/dayNumber"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/colorAccentDark"
-        android:layout_marginTop="44dp"
-        android:textSize="17dp"
-        android:text="Estas son tus sesiones de conciencia plena" />
+        android:background="@color/colorPrimary"
+        android:padding="30dp"
+        android:text="Día "
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="40dp"
+        android:textStyle="bold" />
 
-    <at.markushi.ui.CircleButton
-        android:id="@+id/playButton"
-        android:layout_height="128dp"
-        android:layout_width="128dp"
-        android:layout_centerInParent="true"
-        app:cb_color="@color/colorAccentDark"
-        app:cb_pressedRingWidth="16dp"
-        android:src="@drawable/ic_play"
-        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageBodyScanSession"
+            android:layout_width="70dp"
+            android:layout_height="75dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/bodyScan_button"
+            android:layout_marginStart="32dp"
+            android:background="@color/colorPrimary"
+            android:src="@drawable/ic_bodyscan" />
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/bodyScan_button"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="225dp"
+            android:layout_height="85dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="23dp"
+            android:layout_marginTop="39dp"
+            android:background="@color/colorPrimary"
+            android:text="Escaneo Corporal"
+            android:textAllCaps="false"
+            android:textAppearance="?android:textAppearanceButton"
+            android:textSize="20dp"
+            tools:layout_editor_absoluteY="421dp" />
 
 
+        <ImageView
+            android:id="@+id/imageRoutineSession"
+            android:layout_width="70dp"
+            android:layout_height="75dp"
+            android:layout_alignStart="@+id/imageBodyScanSession"
+            android:layout_alignTop="@+id/daily_button"
+            android:background="@color/colorPrimary"
+            android:src="@drawable/ic_brush" />
 
-</RelativeLayout>
+        <android.support.design.button.MaterialButton
+            android:id="@+id/daily_button"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="225dp"
+            android:layout_height="85dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/bodyScan_button"
+            android:layout_marginTop="133dp"
+            android:background="@color/colorPrimary"
+            android:text="Actividad Cotidiana"
+            android:textAllCaps="false"
+            android:textAppearance="?android:textAppearanceButton"
+            android:textSize="20dp"
+            tools:layout_editor_absoluteY="421dp" />
+
+        <ImageView
+            android:id="@+id/imagePauseSession"
+            android:layout_width="70dp"
+            android:layout_height="75dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/imageBodyScanSession"
+            android:layout_marginBottom="150dp"
+            android:background="@color/colorPrimary"
+            android:src="@drawable/ic_pauseday" />
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/pauseDay_button"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="225dp"
+            android:layout_height="85dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/bodyScan_button"
+            android:layout_marginBottom="137dp"
+            android:background="@color/colorPrimary"
+            android:text="Pausa en el día"
+            android:textAllCaps="false"
+            android:textAppearance="?android:textAppearanceButton"
+            android:textSize="20dp"
+            tools:layout_editor_absoluteY="421dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="116dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true">
+
+            <at.markushi.ui.CircleButton
+                android:id="@+id/completeDayButton"
+                android:layout_width="93dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_completed"
+                app:cb_color="@color/colorWhite" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</LinearLayout>
