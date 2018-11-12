@@ -256,19 +256,19 @@ public class SplashActivity extends AppCompatActivity implements NavigationHost 
     }
 
 
-    private void tellFragments() {
+    private void tellFragments(){
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        for (Fragment f : fragments) {
-            if (f != null && f instanceof BaseFragment)
-                ((BaseFragment) f).onBackPressed();
+        for(Fragment f : fragments){
+            if(f != null && f instanceof BaseFragment)
+                ((BaseFragment)f).onBackPressed();
         }
     }
 
-    private void checkCurrentUser(FirebaseUser currentUser) {
-        if (currentUser != null) {
-            boolean verifiedEmail = currentUser.isEmailVerified();
-            if (!verifiedEmail) {
-                Toast.makeText(getApplicationContext(), "Por favor confirma tu cuenta. Revisa tu correo electrónico.", Toast.LENGTH_LONG).show();
+    private void checkCurrentUser(FirebaseUser currentUser){
+        if(currentUser!=null){
+            boolean verifiedEmail=currentUser.isEmailVerified();
+            if(!verifiedEmail){
+                Toast.makeText(getApplicationContext(),"Por favor confirma tu cuenta. Revisa tu correo electrónico.", Toast.LENGTH_LONG).show();
             }
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(intent);
@@ -276,7 +276,7 @@ public class SplashActivity extends AppCompatActivity implements NavigationHost 
         }
     }
 
-    private void createDialog(String message) {
+    private void createDialog(String message){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message);
         // Add the buttons

@@ -59,16 +59,19 @@ public class HealthFragment extends Fragment {
         }
         TextView scoreText=(TextView)view.findViewById(R.id.score_text);
         TextView nextPstText=(TextView)view.findViewById(R.id.next_pst_text);
-        scoreText.setText(text);
         nextPstText.setText(daysLeft+" días hasta la próxima medición.");
         ImageView scoreImage=(ImageView)view.findViewById(R.id.score_image);
         if (lastPST<=18){
             Picasso.get().load(PST_SCORE_LOW_URL).into(scoreImage);
+            text+=" Esto significa que presentas un nivel BAJO de estrés.";
         }else if(lastPST>18&&lastPST<=36){
             Picasso.get().load(PST_SCORE_MEDIUM_URL).into(scoreImage);
+            text+=" Esto significa que presentas un nivel MEDIO de estrés.";
         }else{
             Picasso.get().load(PST_SCORE_HIGH_URL).into(scoreImage);
+            text+=" Esto significa que presentas un nivel ALTO de estrés.";
         }
+        scoreText.setText(text);
         MaterialButton newPstButton = view.findViewById(R.id.new_pst_button);
         if(daysLeft<=0){
             newPstButton.setVisibility(View.VISIBLE);

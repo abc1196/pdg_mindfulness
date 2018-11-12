@@ -107,7 +107,7 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
                         fragment = fragments.get(1);
                         break;
                     case R.id.menu_profile:
-                        fragment = fragments.get(1);
+                        fragment = fragments.get(2);
                         break;
                 }
                 replaceFragment(fragment);
@@ -132,13 +132,11 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
 
     private void buildFragmentsList() {
         HomeFragment homeFragment = new HomeFragment();
-
         HealthFragment healthFragment = new HealthFragment();
         ProfileFragment profileFragment = new ProfileFragment();
 
         fragments.add(homeFragment);
         fragments.add(healthFragment);
-
         fragments.add(profileFragment);
     }
 
@@ -162,6 +160,24 @@ public class HomeActivity extends AppCompatActivity  implements DashboardNavigat
                 FirebaseUser currentUser=mAuth.getCurrentUser();
                 if(currentUser!=null){
                     mAuth.signOut();
+                    SharedPreferences sharedPreferences=getApplicationContext().getSharedPreferences("SHARED_PREFERENCES", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                    editor.putLong("USER_LAST_PST",0);
+                    editor.putString("USER_NEXT_PST",null);
+                    editor.commit();
+
+
+                    SharedPreferences sharedPreferences2= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+                    editor2.putLong(SCREEN_ON_TIMESTAMP, 0);
+                    editor2.putLong(SCREEN_TOTAL_TIME, 0);
+                    editor2.putInt(SCREEN_ON_COUNT,0);
+                    editor2.putBoolean(SERVICES_ON,false);
+                    editor2.commit();
+
+                    ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                    manager.killBackgroundProcesses(ScreenOnOffBackgroundService.class.getName());
+
                     Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
                     startActivity(intent);
                     finish();

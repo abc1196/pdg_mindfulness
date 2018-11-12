@@ -20,20 +20,20 @@ public class SliderAdapter extends PagerAdapter {
     LayoutInflater layoutInflater;
 
     public int[] slide_images={
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
+            R.drawable.ic_terapy_welcome,
+            R.drawable.ic_hearth,
             R.mipmap.ic_launcher
     };
 
     public String[] slide_headers={
-        "HOME", "HRV","PROFILE"
+        "TERAPÍA BASADA EN MINDFULNESS", "ESTRÉS PERCIBIDO","INFORMACIÓN DE USO DEL CELULAR"
     };
 
 
     public String[] slide_descriptions={
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel tincidunt nulla. Etiam commodo, sem eu cursus pharetra, quam nisl.",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel tincidunt nulla. Etiam commodo, sem eu cursus pharetra, quam nisl.",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vel tincidunt nulla. Etiam commodo, sem eu cursus pharetra, quam nisl."
+            "Mediante el método de la terapía cognitiva basada en mindfulness (MCBT) se más consciente del presente y de tu estado de animo.",
+            "Realiza autoevaluaciones para determinar tu nivel de estrés percibido durante la última semana.",
+            "El uso reciente de tu teléfono esta relacionado con tu nivel de estrés. Compara estos datos y se más consciente cada día."
     };
 
     public SliderAdapter(Context context){

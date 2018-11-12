@@ -25,7 +25,7 @@ import mindfulness.pdg_mindfulness.R;
  */
 public class SplashFragment extends BaseFragment {
 
-    private static final String SPLASH_ICON_URL="https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/pst_leves%2Fsplash_icon.gif?alt=media&token=2f85f753-f9a0-4d51-abbd-ef17e3a273a3";
+    private static final String SPLASH_ICON_URL="https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/pst_leves%2Fsplash_icon.gif?alt=media&token=ad60e842-c57d-4286-9ded-534d357e2f78";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

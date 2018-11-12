@@ -71,10 +71,13 @@ public class PSTScoreActivity extends AppCompatActivity {
         scoreImage=(ImageView)findViewById(R.id.score_image);
         if (score<=18){
             Glide.with(this).asGif().load(PST_SCORE_LOW_URL).into(scoreImage);
+            text+=" Esto significa que presentas un nivel BAJO de estrés.";
         }else if(score>18&&score<=36){
             Glide.with(this).asGif().load(PST_SCORE_MEDIUM_URL).into(scoreImage);
+            text+=" Esto significa que presentas un nivel MEDIO de estrés.";
         }else{
             Glide.with(this).asGif().load(PST_SCORE_HIGH_URL).into(scoreImage);
+            text+=" Esto significa que presentas un nivel ALTO de estrés.";
         }
         scoreText.setText(text);
         loadingBar= (ProgressBar)findViewById(R.id.loadingBar);
