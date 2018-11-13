@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">pdg_mindfulness</string>
+    <string name="app_name">BMind</string>
     <string name="hint_name">Nombre</string>
     <string name="hint_email">Correo electrónico</string>
     <string name="hint_password">Contraseña</string>

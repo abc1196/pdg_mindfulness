@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorSplash"
+    android:background="@color/colorAccent"
     tools:context=".splash.SplashFragment">
 
     <LinearLayout
@@ -18,8 +18,9 @@
 
         <ImageView
             android:id="@+id/splash_image"
-            android:layout_width="298dp"
-            android:layout_height="298dp"
+            android:layout_width="144dp"
+            android:layout_height="200dp"
+            android:background="@color/colorAccent"
             android:layout_gravity="center_horizontal"/>
 
         <TextView
@@ -28,8 +29,9 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="80dp"
             android:text="@string/app_name"
-            android:textAllCaps="true"
-            android:textSize="16sp" />
+            android:textAllCaps="false"
+            android:textSize="48dp"
+            android:textStyle="bold"/>
 
 
         <android.support.design.button.MaterialButton

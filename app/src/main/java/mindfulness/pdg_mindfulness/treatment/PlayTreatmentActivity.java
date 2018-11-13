@@ -23,7 +23,7 @@ import mindfulness.pdg_mindfulness.R;
 public class PlayTreatmentActivity extends AppCompatActivity {
 
     private static final String BODYSCANDESC = "El escaneo corporal ayuda a conocer tu cuerpo y ser conciente del mismo";
-    private static final String ROUTINEDESC = "Haz esta actividad de manera conciente, disfruta plenamente el momento";
+    private static final String ROUTINEDESC = "Haz esta actividad de manera consciente, disfruta plenamente el momento";
     private static final String PAUSEDESC = "Date una pausa. Respira. Relájate. Vuelve.";
     private CircleButton playSession;
     private TextView sessionDescription;
