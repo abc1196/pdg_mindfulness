@@ -29,7 +29,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:background="@color/colorAccent"
-            android:padding="20dp"
+            android:padding="15dp"
             android:text="Descripción"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
@@ -43,16 +43,15 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:layout_marginTop="83dp"
+            android:layout_marginTop="100dp"
             android:src="@drawable/ic_bodyscan" />
 
         <at.markushi.ui.CircleButton
             android:id="@+id/playSession"
-            android:layout_width="132dp"
-            android:layout_height="149dp"
+            android:layout_width="133dp"
+            android:layout_height="130dp"
             android:layout_below="@+id/image_session"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
             android:src="@drawable/ic_playsession"
             app:cb_color="@color/colorWhite"
             app:cb_pressedRingWidth="16dp"
