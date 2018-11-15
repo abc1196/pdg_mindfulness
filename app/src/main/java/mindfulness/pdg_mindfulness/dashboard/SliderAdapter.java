@@ -22,7 +22,7 @@ public class SliderAdapter extends PagerAdapter {
     public int[] slide_images={
             R.drawable.ic_terapy_welcome,
             R.drawable.ic_hearth,
-            R.mipmap.ic_launcher
+            R.drawable.ic_phone_usage
     };
 
     public String[] slide_headers={
