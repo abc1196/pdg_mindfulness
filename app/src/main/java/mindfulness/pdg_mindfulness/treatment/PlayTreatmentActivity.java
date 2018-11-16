@@ -7,6 +7,7 @@ import android.support.design.button.MaterialButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ public class PlayTreatmentActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private int songProgress;
     private MaterialButton terminateButton;
+    private Button toBackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,15 @@ public class PlayTreatmentActivity extends AppCompatActivity {
         songProgress = 0;
         setDataSource();
 
+        toBackButton=findViewById(R.id.backToTreatmentButton);
+        toBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mediaPlayer.stop();
+                finish();
+
+            }
+        });
 
         terminateButton=findViewById(R.id.terminateSessionButton);
         terminateButton.setVisibility(View.GONE);

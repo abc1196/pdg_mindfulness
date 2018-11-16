@@ -7,6 +7,7 @@ import android.support.design.button.MaterialButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +30,8 @@ public class TreatmentActivity extends AppCompatActivity {
     private MaterialButton bodyScanButton;
     private MaterialButton dailyActivityButton;
     private MaterialButton pauseButton;
+    private Button toBackButton;
+
     private TextView textView;
     private String dayNumber;
     private FirebaseAuth mAuth;
@@ -43,6 +46,7 @@ public class TreatmentActivity extends AppCompatActivity {
     private ImageView bodyScanImage;
     private ImageView routineImage;
     private ImageView pauseImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,7 @@ public class TreatmentActivity extends AppCompatActivity {
         bodyScanButton = (MaterialButton) findViewById(R.id.bodyScan_button);
         dailyActivityButton = (MaterialButton) findViewById(R.id.daily_button);
         pauseButton = (MaterialButton) findViewById(R.id.pauseDay_button);
+        toBackButton = (Button) findViewById(R.id.backToHomeButton);
         completeDayButton=findViewById(R.id.completeDayButton);
         completeDayButton.setEnabled(false);
         completeDayButton.setVisibility(View.GONE);
@@ -121,6 +126,14 @@ public class TreatmentActivity extends AppCompatActivity {
     }
 
     public void setListeners(){
+        toBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         bodyScanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
