@@ -138,7 +138,7 @@ public class PlayTreatmentActivity extends AppCompatActivity {
             daysTemp.put("isRoutineDone", false);
             daysTemp.put("isPauseDone", false);
             if (sessionType.equals(TreatmentActivity.BODYSCAN)) {
-                mediaPlayer.setDataSource("https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/03.%20Ride.mp3?alt=media&token=28870759-7b83-4cc1-bcde-9c1775c3c59d");
+                mediaPlayer.setDataSource("https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/cbt_audios%2FBODYSCAN.mp3?alt=media&token=2f6acb33-f8fd-4ff3-aaaf-00297e07257f");
                 mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
@@ -164,7 +164,7 @@ public class PlayTreatmentActivity extends AppCompatActivity {
                 });
             } else if (sessionType.equals(TreatmentActivity.ROUTINE)) {
 
-                mediaPlayer.setDataSource("https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/03.%20Ride.mp3?alt=media&token=28870759-7b83-4cc1-bcde-9c1775c3c59d");
+                mediaPlayer.setDataSource("https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/cbt_audios%2FACTIVIDAD_COTIDIANA.mp3?alt=media&token=188c0351-3ae9-4c5e-98b5-a453dd97a35e");
                 mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
@@ -188,7 +188,7 @@ public class PlayTreatmentActivity extends AppCompatActivity {
                 });
 
             } else if (sessionType.equals(TreatmentActivity.PAUSE)) {
-                mediaPlayer.setDataSource("https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/03.%20Ride.mp3?alt=media&token=28870759-7b83-4cc1-bcde-9c1775c3c59d");
+                mediaPlayer.setDataSource("https://firebasestorage.googleapis.com/v0/b/pdg-mindfulness.appspot.com/o/cbt_audios%2FPAUSA.mp3?alt=media&token=652eedce-9e38-45ef-9c01-c56c49e4bf15");
                 mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
