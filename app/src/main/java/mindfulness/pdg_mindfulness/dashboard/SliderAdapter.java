@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.w3c.dom.Text;
 
 import mindfulness.pdg_mindfulness.R;
@@ -22,7 +24,7 @@ public class SliderAdapter extends PagerAdapter {
     public int[] slide_images={
             R.drawable.ic_terapy_welcome,
             R.drawable.ic_hearth,
-            R.drawable.ic_phone_usage
+            R.drawable.ic_hearth
     };
 
     public String[] slide_headers={
@@ -57,7 +59,8 @@ public class SliderAdapter extends PagerAdapter {
         ImageView imageView =(ImageView)view.findViewById(R.id.imageView);
         TextView textTitleView=(TextView)view.findViewById(R.id.textTitle);
         TextView textDescriptionView=(TextView)view.findViewById(R.id.textDescription);
-        imageView.setImageResource(slide_images[position]);
+        //imageView.setImageResource(slide_images[position]);
+        Picasso.get().load(slide_images[position]).into(imageView);
         textTitleView.setText(slide_headers[position]);
         textDescriptionView.setText(slide_descriptions[position]);
         container.addView(view);

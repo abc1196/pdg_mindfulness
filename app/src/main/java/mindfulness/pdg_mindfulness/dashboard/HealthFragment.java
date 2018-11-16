@@ -44,47 +44,50 @@ public class HealthFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_health, container, false);
-        SharedPreferences sharedPreferences=getActivity().getApplicationContext().getSharedPreferences("SHARED_PREFERENCES", Context.MODE_PRIVATE);
-        Long lastPST=sharedPreferences.getLong("USER_LAST_PST",0);
-        String nextPST=sharedPreferences.getString("USER_NEXT_PST",null);
-        Calendar currentDate=Calendar.getInstance();
-        Calendar nextDate=Calendar.getInstance();
-        nextDate.setTimeInMillis(Long.parseLong(nextPST));
-        int daysLeft=daysBetween(currentDate,nextDate);
-        String text="";
-        String userName=sharedPreferences.getString("USER_NAME",null);
-        if(userName!=null){
-            text+=userName+", "+"\n"+"\n";
-            text+="Tu puntaje fue de "+lastPST+" puntos.";
-        }
-        TextView scoreText=(TextView)view.findViewById(R.id.score_text);
-        TextView nextPstText=(TextView)view.findViewById(R.id.next_pst_text);
-        nextPstText.setText(daysLeft+" días hasta la próxima medición.");
-        ImageView scoreImage=(ImageView)view.findViewById(R.id.score_image);
-        if (lastPST<=18){
-            Picasso.get().load(PST_SCORE_LOW_URL).into(scoreImage);
-            text+=" Esto significa que presentas un nivel BAJO de estrés.";
-        }else if(lastPST>18&&lastPST<=36){
-            Picasso.get().load(PST_SCORE_MEDIUM_URL).into(scoreImage);
-            text+=" Esto significa que presentas un nivel MEDIO de estrés.";
-        }else{
-            Picasso.get().load(PST_SCORE_HIGH_URL).into(scoreImage);
-            text+=" Esto significa que presentas un nivel ALTO de estrés.";
-        }
-        scoreText.setText(text);
-        MaterialButton newPstButton = view.findViewById(R.id.new_pst_button);
-        if(daysLeft<=0){
-            newPstButton.setVisibility(View.VISIBLE);
-            nextPstText.setVisibility(View.GONE);
-        }
-        newPstButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), PSTActivity.class);
-                startActivity(intent);
-                getActivity().finish();
+        try {
+            SharedPreferences sharedPreferences = getActivity().getApplicationContext().getSharedPreferences("SHARED_PREFERENCES", Context.MODE_PRIVATE);
+            Long lastPST = sharedPreferences.getLong("USER_LAST_PST", 0);
+            String nextPST = sharedPreferences.getString("USER_NEXT_PST", null);
+
+            Calendar currentDate = Calendar.getInstance();
+            Calendar nextDate = Calendar.getInstance();
+            nextDate.setTimeInMillis(Long.parseLong(nextPST));
+            int daysLeft = daysBetween(currentDate, nextDate);
+            String text = "";
+            String userName = sharedPreferences.getString("USER_NAME", null);
+            if (userName != null) {
+                text += userName + ", " + "\n" + "\n";
+                text += "Tu puntaje fue de " + lastPST + " puntos.";
             }
-        });
+            TextView scoreText = (TextView) view.findViewById(R.id.score_text);
+            TextView nextPstText = (TextView) view.findViewById(R.id.next_pst_text);
+            nextPstText.setText(daysLeft + " días hasta la próxima medición.");
+            ImageView scoreImage = (ImageView) view.findViewById(R.id.score_image);
+            if (lastPST <= 18) {
+                Picasso.get().load(PST_SCORE_LOW_URL).into(scoreImage);
+                text += " Esto significa que presentas un nivel BAJO de estrés.";
+            } else if (lastPST > 18 && lastPST <= 36) {
+                Picasso.get().load(PST_SCORE_MEDIUM_URL).into(scoreImage);
+                text += " Esto significa que presentas un nivel MEDIO de estrés.";
+            } else {
+                Picasso.get().load(PST_SCORE_HIGH_URL).into(scoreImage);
+                text += " Esto significa que presentas un nivel ALTO de estrés.";
+            }
+            scoreText.setText(text);
+            MaterialButton newPstButton = view.findViewById(R.id.new_pst_button);
+            if (daysLeft <= 0) {
+                newPstButton.setVisibility(View.VISIBLE);
+                nextPstText.setVisibility(View.GONE);
+            }
+            newPstButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity().getApplicationContext(), PSTActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            });
+        }catch (Exception e){}
         return view;
     }
 
