@@ -17,6 +17,7 @@
     <string name="button_new_pst">Nueva medición</string>
     <string name="title_activity_graphics">GraphicsActivity</string>
 
+    <string name="phone_usage_info">Utiliza tu celular de manera consciente para estar en el momento presente.</string>
     <string name="allow_usage_permissions">Debes activar el acceso a datos de uso.</string>
     <string name="logout">¿Estas segura de cerrar sesión?</string>
 

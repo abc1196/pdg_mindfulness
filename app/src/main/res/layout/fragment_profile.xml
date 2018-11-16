@@ -34,8 +34,21 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/text_layout_one"
+            android:id="@+id/text_layout_phone"
             android:layout_below="@+id/layout_one"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="6dp"
+            android:textStyle="bold"
+            android:text="@string/phone_usage_info"
+            android:layout_marginRight="16dp"
+            android:textSize="16dp"
+            android:textColor="@color/common_google_signin_btn_text_light"/>
+
+        <TextView
+            android:id="@+id/text_layout_one"
+            android:layout_below="@+id/text_layout_phone"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
