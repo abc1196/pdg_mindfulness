@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context=".treatment.PlayTreatmentActivity">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+        <Button
+            android:id="@+id/backToTreatmentButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_arrow_back_purple"
+            android:src="@drawable/ic_arrow_back_purple"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="109dp"
+            android:background="@color/colorAccent"
+            android:padding="20dp"
+            android:text="   Tu terapia de atención plena"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="26dp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/sessionDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorAccent"
+            android:padding="15dp"
+            android:text="Descripción"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/image_session"
+            android:layout_width="190dp"
+            android:layout_height="162dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/ic_bodyscan" />
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/playSession"
+            android:layout_width="133dp"
+            android:layout_height="130dp"
+            android:layout_below="@+id/image_session"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_playsession"
+            app:cb_color="@color/colorWhite"
+            app:cb_pressedRingWidth="16dp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="123dp" />
+
+        <android.support.design.button.MaterialButton
+            android:id="@+id/terminateSessionButton"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/playSession"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorPrimaryDark"
+            android:text="Terminar Sesión"
+            android:textAllCaps="false"
+            android:textAppearance="?android:textAppearanceButton"
+            android:textColor="@color/colorAccent"
+            app:cornerRadius="16dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

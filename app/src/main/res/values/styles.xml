@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -24,6 +24,11 @@
         <item name="backgroundTint">?attr/colorControlActivated</item>
     </style>
 
+    <style name="ButtonAppBar" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="android:textColor">?attr/colorPrimaryDark</item>
+        <item name="backgroundTint">?attr/colorControlActivated</item>
+    </style>
+
     <style name="TextAppearance.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
@@ -35,4 +40,5 @@
         <item name="android:paddingBottom">8dp</item>
         <item name="android:textColorHint">?attr/colorPrimary</item>
     </style>
+
 </resources>

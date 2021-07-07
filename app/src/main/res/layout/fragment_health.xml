@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="54dp"
+    android:background="@color/colorAccent"
+    tools:context=".dashboard.HealthFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Tu nivel de estrés percibido"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:textSize="28dp"
+            android:background="@color/colorPrimary"
+            />
+        <ImageView
+            android:id="@+id/score_image"
+            android:layout_width="144dp"
+            android:layout_height="298dp"
+            android:layout_gravity="center"
+            android:background="@color/colorAccent"
+            />
+        <TextView
+            android:id="@+id/next_pst_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@color/colorAccent"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="@color/common_google_signin_btn_text_light"
+            android:textSize="16dp"/>
+        <android.support.design.button.MaterialButton
+            android:id="@+id/new_pst_button"
+            style="@style/Widget.MaterialComponents.Button"
+            app:cornerRadius="16dp"
+            android:layout_marginHorizontal="64dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceButton"
+            android:text="NUEVA MEDICIÓN"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/score_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@color/colorAccent"
+            android:text="Tu nivel de estrés percibido"
+            android:textAlignment="textStart"
+            android:textColor="@color/common_google_signin_btn_text_light"
+            android:textSize="14dp"
+            android:layout_marginBottom="8dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@color/colorAccent"
+            android:text="Los resultados de la autoevaluación no reflejan ningún diagnóstico o curso de tratamiento en particular.
+Están pensados como una herramienta para ayudar a evaluar tu nivel de estrés. Si tienes alguna duda sobre tu estado emocional, contacta a tu especialista."
+            android:textAlignment="textStart"
+            android:textColor="@color/common_google_signin_btn_text_light"
+            android:textSize="14dp"
+            android:layout_marginBottom="8dp" />
+    </LinearLayout>
+</ScrollView>
